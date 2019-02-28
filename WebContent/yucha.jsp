@@ -179,294 +179,294 @@
 </head>
 
 <body>
-<!-- ##### Preloader ##### -->
-<div id="preloader">
-    <i class="circle-preloader"></i>
-</div>
+    <!-- ##### Preloader ##### -->
+    <div id="preloader">
+        <i class="circle-preloader"></i>
+    </div>
 
-<!-- ##### Header Area Start #####  -->
-<header class="header-area">
-    <!-- Top Header Area -->
-    <div class="top-header">
-        <div class="container h-100">
-            <div class="row h-100">
-                <div class="col-12 h-100">
-                    <div class="header-content h-100 d-flex align-items-center justify-content-between">
-                        <div class="academy-logo">
-                            <a href="index.jsp"><img src="img/YC-logo.png" alt=""></a>
-                        </div>
-                        <div class="login-content">
-                            <a href="#">注册 / 登陆</a>
+    <!-- ##### Header Area Start #####  -->
+    <header class="header-area">
+        <!-- Top Header Area -->
+        <div class="top-header">
+            <div class="container h-100">
+                <div class="row h-100">
+                    <div class="col-12 h-100">
+                        <div class="header-content h-100 d-flex align-items-center justify-content-between">
+                            <div class="academy-logo">
+                                <a href="index.jsp"><img src="img/YC-logo.png" alt=""></a>
+                            </div>
+                            <div class="login-content">
+                                <a href="#">注册 / 登陆</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Navbar Area -->
-    <div class="academy-main-menu">
-        <div class="classy-nav-container breakpoint-off">
-            <div class="container">
-                <!-- Menu -->
-                <nav class="classy-navbar justify-content-between" id="academyNav">
-
-                    <!-- Navbar Toggler -->
-                    <div class="classy-navbar-toggler">
-                        <span class="navbarToggler"><span></span><span></span><span></span></span>
-                    </div>
-
+        <!-- Navbar Area -->
+        <div class="academy-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
                     <!-- Menu -->
-                    <div class="classy-menu">
+                    <nav class="classy-navbar justify-content-between" id="academyNav">
 
-                        <!-- close btn -->
-                        <div class="classycloseIcon">
-                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
                         </div>
 
-                        <!-- Nav Start -->
-                        <div class="classynav">
-                            <ul>
-                                <li><a href="index.jsp">主页</a></li>
-                                <li><a href="#">导航</a>
-                                    <ul class="dropdown">
-                                        <li><a href="index.jsp">主页</a></li>
-                                        <li><a href="">预查</a></li>
-                                        <li><a href="">预测</a></li>
-                                        <li><a href="">预策</a></li>
-                                        <li><a href="">文章</a></li>
-                                        <li><a href="">关于</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">功能</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="yucha.jsp" style="font-size:18px">预查</a></li>
-                                            <br>
-                                            <li><a class="YC-Main-a" href="#">这里有</a></li>
-                                            <li><a class="YC-Main-a" href="#">我国各高校</a></li>
-                                            <li><a class="YC-Main-a" href="#">近6年</a></li>
-                                            <li><a class="YC-Main-a" href="#">详细录取分数</a></li>
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="index.jsp">主页</a></li>
+                                    <li><a href="#">导航</a>
+                                        <ul class="dropdown">
+                                            <li><a href="index.jsp">主页</a></li>
+                                            <li><a href="">预查</a></li>
+                                            <li><a href="">预测</a></li>
+                                            <li><a href="">预策</a></li>
+                                            <li><a href="">文章</a></li>
+                                            <li><a href="">关于</a></li>
                                         </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="yuce.jsp" style="font-size:18px">预测</a></li>
-                                            <br>
-                                            <li><a class="YC-Main-a" href="#">这里有</a></li>
-                                            <li><a class="YC-Main-a" href="#">你想去、向往的</a></li>
-                                            <li><a class="YC-Main-a" href="#">各大学</a></li>
-                                            <li><a class="YC-Main-a" href="#">录取你的可能性</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="yucehua.jsp" style="font-size:18px">预策</a></li>
-                                            <br>
-                                            <li><a class="YC-Main-a" href="#">这里有</a></li>
-                                            <li><a class="YC-Main-a" href="#">你满意、合适的</a></li>
-                                            <li><a class="YC-Main-a" href="#">各大学、专业</a></li>
-                                            <li><a class="YC-Main-a"href="#">现在及未来的可能性</a></li>
-                                        </ul>
-                                        <div class="single-mega cn-col-4">
-                                            <img src="img/Main-dh.jpg" alt="">
+                                    </li>
+                                    <li><a href="#">功能</a>
+                                        <div class="megamenu">
+                                            <ul class="single-mega cn-col-4">
+                                                <li><a href="yucha.jsp" style="font-size:18px">预查</a></li>
+                                                <br>
+                                                <li><a class="YC-Main-a" href="#">这里有</a></li>
+                                                <li><a class="YC-Main-a" href="#">我国各高校</a></li>
+                                                <li><a class="YC-Main-a" href="#">近6年</a></li>
+                                                <li><a class="YC-Main-a" href="#">详细录取分数</a></li>
+                                            </ul>
+                                            <ul class="single-mega cn-col-4">
+                                                <li><a href="yuce.jsp" style="font-size:18px">预测</a></li>
+                                                <br>
+                                                <li><a class="YC-Main-a" href="#">这里有</a></li>
+                                                <li><a class="YC-Main-a" href="#">你想去、向往的</a></li>
+                                                <li><a class="YC-Main-a" href="#">各大学</a></li>
+                                                <li><a class="YC-Main-a" href="#">录取你的可能性</a></li>
+                                            </ul>
+                                            <ul class="single-mega cn-col-4">
+                                                <li><a href="yucehua.jsp" style="font-size:18px">预策</a></li>
+                                                <br>
+                                                <li><a class="YC-Main-a" href="#">这里有</a></li>
+                                                <li><a class="YC-Main-a" href="#">你满意、合适的</a></li>
+                                                <li><a class="YC-Main-a" href="#">各大学、专业</a></li>
+                                                <li><a class="YC-Main-a"href="#">现在及未来的可能性</a></li>
+                                            </ul>
+                                            <div class="single-mega cn-col-4">
+                                                <img src="img/Main-dh.jpg" alt="">
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li><a href="">文章</a></li>
-                                <li><a href="">关于</a></li>
-                                <li><a href="">个人信息</a></li>
-                            </ul>
+                                    </li>
+                                    <li><a href="">文章</a></li>
+                                    <li><a href="">关于</a></li>
+                                    <li><a href="">个人信息</a></li>
+                                </ul>
+                            </div>
+                            <!-- Nav End -->
                         </div>
-                        <!-- Nav End -->
-                    </div>
 
-                    <!-- Calling Info -->
-                    <div class="calling-info">
-                        <div class="call-center">
-                            <a href="#"><i class="icon-telephone-2"></i> <span>(+86) 156 8604 2706</span></a>
+                        <!-- Calling Info -->
+                        <div class="calling-info">
+                            <div class="call-center">
+                                <a href="#"><i class="icon-telephone-2"></i> <span>(+86) 156 8604 2706</span></a>
+                            </div>
                         </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- ##### Header Area End ##### -->
-
-<!-- ##### Breadcumb Area Start ##### -->
-<div class="breadcumb-area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
-    <div class="bradcumbContent">
-        <h2>预查-查古知今</h2>
-    </div>
-</div>
-<!-- ##### Breadcumb Area End ##### -->
-
-<!-- ##### data query Start ##### -->
-<div class="data-query" style="margin-top: 150px">
-    <div class="container">
-        <div class="section-heading text-center mx-auto wow fadeInUp" data-wow-delay="300ms" >
-            <span>The Best</span>
-            <h3>往年高考数据</h3>
-        </div>
-
-        <%--条件查询和数据展示area--%>
-        <div id="f-select-university" class="text-center mx-auto mb-200" >
-            <%--选择待查询大学, 提交到servlet，返回json数据--%>
-            <form action="/showdata" method="get">
-                <select id="province">
-                    <option>---请选择---</option>
-                </select>
-                <select id="city">
-                    <option>---请选择---</option>
-                </select>
-                <select id="university">
-                    <option>---请选择---</option>
-                </select>
-                <input value="查询" type="button" style="width: 60px; height: 40px;
-                 opacity: 0.7; border-radius: 5px; background: #dbf3c4" onclick="showdata()">
-            </form>
-
-            <div id="echart" style="height: 500px; width: 80%; display: none" class="text-center mx-auto mt-50">
-
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- ##### Top Popular Courses Area End ##### -->
-
-
-
-<!-- ##### Partner Area Start ##### -->
-<div class="partner-area section-padding-0-100">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="partners-logo d-flex align-items-center justify-content-between flex-wrap">
-                    <a href="#"><img src="img/Sponsor1.png" alt=""></a>
-                    <a href="#"><img src="img/Sponsor2.png" alt=""></a>
-                    <a href="#"><img src="img/Sponsor3.png" alt=""></a>
-                    <a href="#"><img src="img/Sponsor4.png" alt=""></a>
-                    <a href="#"><img src="img/Sponsor5.png" alt=""></a>
+                    </nav>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- ##### Partner Area End ##### -->
+    </header>
+    <!-- ##### Header Area End ##### -->
 
-<!-- ##### CTA Area Start ##### -->
-<div class="call-to-action-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="cta-content d-flex align-items-center justify-content-between flex-wrap">
-                    <h3>Do you want to enrole at our Academy? Get in touch!</h3>
-                    <a href="#" class="btn academy-btn">See More</a>
-                </div>
-            </div>
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb-area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+        <div class="bradcumbContent">
+            <h2>预查-查古知今</h2>
         </div>
     </div>
-</div>
-<!-- ##### CTA Area End ##### -->
+    <!-- ##### Breadcumb Area End ##### -->
 
-<!-- ##### Footer Area Start ##### -->
-<footer class="footer-area">
-    <div class="main-footer-area section-padding-100-0">
+    <!-- ##### Data Query Area Start ##### -->
+    <div class="data-query" style="margin-top: 150px">
         <div class="container">
-            <div class="row">
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <a href="#"><img src="img/YC-logo2.png" alt=""></a>
-                        </div>
-                        <p>有者，事竟成<br>破釜沉舟，百二秦关终归楚<br>苦心人，天不负<br>卧薪尝胆，三千越甲可吞吴</p>
-                        <div class="footer-social-info">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
+            <div class="section-heading text-center mx-auto wow fadeInUp" data-wow-delay="300ms" >
+                <span>The Best</span>
+                <h3>往年高考数据</h3>
+            </div>
+
+            <%--条件查询和数据展示area--%>
+            <div id="f-select-university" class="text-center mx-auto mb-200" >
+                <%--选择待查询大学, 提交到servlet，返回json数据--%>
+                <form action="/showdata" method="get">
+                    <select id="province">
+                        <option>---请选择---</option>
+                    </select>
+                    <select id="city">
+                        <option>---请选择---</option>
+                    </select>
+                    <select id="university">
+                        <option>---请选择---</option>
+                    </select>
+                    <input value="查询" type="button" style="width: 60px; height: 40px;
+                     opacity: 0.7; border-radius: 5px; background: #dbf3c4" onclick="showdata()">
+                </form>
+
+                <div id="echart" style="height: 500px; width: 80%; display: none" class="text-center mx-auto mt-50">
+
                 </div>
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <h6>相关 链接</h6>
-                        </div>
-                        <nav>
-                            <ul class="useful-links"style="float:left">
-                                <li><a href="index.jsp">主页</a></li>
-                                <li><a href="#" style="float:left">预查</a><a href="#"style="float:left">预测</a><a href="#"style="float:left">预策</a></li>
-                                <li><a href="#">辅导文章</a></li>
-                                <li><a href="#">关于我们</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <h6>画廊</h6>
-                        </div>
-                        <div class="gallery-list d-flex justify-content-between flex-wrap">
-                            <a href="img/bg-img/gallery1.jpg" class="gallery-img" title="Gallery Image 1"><img src="img/bg-img/gallery1.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery2.jpg" class="gallery-img" title="Gallery Image 2"><img src="img/bg-img/gallery2.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery3.jpg" class="gallery-img" title="Gallery Image 3"><img src="img/bg-img/gallery3.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery4.jpg" class="gallery-img" title="Gallery Image 4"><img src="img/bg-img/gallery4.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery5.jpg" class="gallery-img" title="Gallery Image 5"><img src="img/bg-img/gallery5.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery6.jpg" class="gallery-img" title="Gallery Image 6"><img src="img/bg-img/gallery6.jpg" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <h6>联系方式</h6>
-                        </div>
-                        <div class="single-contact d-flex mb-30">
-                            <i class="icon-placeholder"></i>
-                            <p>西安交通大学</p>
-                        </div>
-                        <div class="single-contact d-flex mb-30">
-                            <i class="icon-telephone-1"></i>
-                            <p>Main: 156 8604 2706 <br>Office: 159 9179 9939</p>
-                        </div>
-                        <div class="single-contact d-flex">
-                            <i class="icon-contract"></i>
-                            <p>GK_Counsel@businees.com</p>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
-    <div class="bottom-footer-area">
+    <!-- ##### Data Query Area End ##### -->
+
+
+
+    <!-- ##### Partner Area Start ##### -->
+    <div class="partner-area section-padding-0-100">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <p>
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Colorlib  All rights reserved | More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-                    </p>
+                    <div class="partners-logo d-flex align-items-center justify-content-between flex-wrap">
+                        <a href="#"><img src="img/Sponsor1.png" alt=""></a>
+                        <a href="#"><img src="img/Sponsor2.png" alt=""></a>
+                        <a href="#"><img src="img/Sponsor3.png" alt=""></a>
+                        <a href="#"><img src="img/Sponsor4.png" alt=""></a>
+                        <a href="#"><img src="img/Sponsor5.png" alt=""></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</footer>
-<!-- ##### Footer Area Start ##### -->
+    <!-- ##### Partner Area End ##### -->
 
-<!-- ##### All Javascript Script ##### -->
-<!-- jQuery-2.2.4 js -->
-<script src="js/jquery/jquery-2.2.4.min.js"></script>
-<!-- Popper js -->
-<script src="js/bootstrap/popper.min.js"></script>
-<!-- Bootstrap js -->
-<script src="js/bootstrap/bootstrap.min.js"></script>
-<!-- All Plugins js -->
-<script src="js/plugins/plugins.js"></script>
-<!-- Active js -->
-<script src="js/active.js"></script>
+    <!-- ##### CTA Area Start ##### -->
+    <div class="call-to-action-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="cta-content d-flex align-items-center justify-content-between flex-wrap">
+                        <h3>Do you want to enrole at our Academy? Get in touch!</h3>
+                        <a href="#" class="btn academy-btn">See More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### CTA Area End ##### -->
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
+        <div class="main-footer-area section-padding-100-0">
+            <div class="container">
+                <div class="row">
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <a href="#"><img src="img/YC-logo2.png" alt=""></a>
+                            </div>
+                            <p>有者，事竟成<br>破釜沉舟，百二秦关终归楚<br>苦心人，天不负<br>卧薪尝胆，三千越甲可吞吴</p>
+                            <div class="footer-social-info">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-dribbble"></i></a>
+                                <a href="#"><i class="fa fa-behance"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <h6>相关 链接</h6>
+                            </div>
+                            <nav>
+                                <ul class="useful-links"style="float:left">
+                                    <li><a href="index.jsp">主页</a></li>
+                                    <li><a href="#" style="float:left">预查</a><a href="#"style="float:left">预测</a><a href="#"style="float:left">预策</a></li>
+                                    <li><a href="#">辅导文章</a></li>
+                                    <li><a href="#">关于我们</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <h6>画廊</h6>
+                            </div>
+                            <div class="gallery-list d-flex justify-content-between flex-wrap">
+                                <a href="img/bg-img/gallery1.jpg" class="gallery-img" title="Gallery Image 1"><img src="img/bg-img/gallery1.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery2.jpg" class="gallery-img" title="Gallery Image 2"><img src="img/bg-img/gallery2.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery3.jpg" class="gallery-img" title="Gallery Image 3"><img src="img/bg-img/gallery3.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery4.jpg" class="gallery-img" title="Gallery Image 4"><img src="img/bg-img/gallery4.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery5.jpg" class="gallery-img" title="Gallery Image 5"><img src="img/bg-img/gallery5.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery6.jpg" class="gallery-img" title="Gallery Image 6"><img src="img/bg-img/gallery6.jpg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <h6>联系方式</h6>
+                            </div>
+                            <div class="single-contact d-flex mb-30">
+                                <i class="icon-placeholder"></i>
+                                <p>西安交通大学</p>
+                            </div>
+                            <div class="single-contact d-flex mb-30">
+                                <i class="icon-telephone-1"></i>
+                                <p>Main: 156 8604 2706 <br>Office: 159 9179 9939</p>
+                            </div>
+                            <div class="single-contact d-flex">
+                                <i class="icon-contract"></i>
+                                <p>GK_Counsel@businees.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <p>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> Colorlib  All rights reserved | More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ##### Footer Area Start ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
 
 </body>
