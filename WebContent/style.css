@@ -1272,3 +1272,87 @@ img {
 		margin-right: 30px;
 	}
 /*# sourceMappingURL=style.css.map */
+
+/*高校搜索导航栏*/
+.menufix{
+  padding:10px 20px;
+  margin-top: -50px;
+}
+  .menufix p{
+    padding:5px 0;
+    border-bottom:1px dotted #DDDDDD;
+    overflow:hidden;
+  }
+  .menufix p.last{
+    border-bottom:none;
+  }
+  .menufix p a{
+    margin:3px 0;
+    padding:0 8px;
+    white-space:nowrap;
+    display:inline-block;
+    font-size: medium;
+    font-weight: 400;
+  }
+  .menufix p a:hover{
+    color:#333;
+    text-decoration:underline;
+  }
+  .menufix p a.on{
+    color:#ffffff;
+    background: #3ccf7e;
+  }
+
+  /*高校信息列表*/
+.university-list {
+  margin-top: 30px;
+
+}
+.university-list .right{
+  float: right;
+}
+.university-list dl {
+  border: 1px solid #e1e1e1;
+  padding: 0;
+  margin: 0;
+}
+.university-list dt {
+  float: left;
+  background: #f4f9f6f2;
+  width: 83px;
+  height: 92px;
+  padding: 12px 12px 6px;
+}
+.scores_List dt img {
+  display: block;
+  margin: 0px auto 5px;
+}
+.university-list dd {
+  height:90px;
+  margin-left:128px;
+  padding:16px 12px 0 0;
+}
+.university-list li {
+  float: left;
+  width: 300px;
+  height: 35px;
+}
+
+/*翻页*/
+.paging {
+  height: 24px;
+  text-align: center;
+  margin-top: 20px;
+}
+.paging li{
+    padding: 3px 10px 2px;
+    border: 1px solid #bbe1c9;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 20px;
+    display: inline;
+}
+
+.mb-200{
+  margin-bottom: 200px;
+}
