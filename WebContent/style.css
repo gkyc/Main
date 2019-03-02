@@ -1304,45 +1304,49 @@ img {
   }
 
   /*高校信息列表*/
-.university-list {
+.universitylist {
   margin-top: 30px;
 
 }
-.university-list .right{
+.universitylist .right{
   float: right;
 }
-.university-list dl {
+.universitylist dl {
   border: 1px solid #e1e1e1;
   padding: 0;
   margin: 0;
 }
-.university-list dt {
+.universitylist dt {
+    text-align: center;
   float: left;
   background: #f4f9f6f2;
-  width: 83px;
-  height: 92px;
+  width: 120px;
+  height: 120px;
   padding: 12px 12px 6px;
 }
-.scores_List dt img {
+.universitylist dt img {
   display: block;
   margin: 0px auto 5px;
 }
-.university-list dd {
-  height:90px;
+.universitylist dd {
+    margin-bottom: 0;
+  height:120px;
   margin-left:128px;
-  padding:16px 12px 0 0;
+  padding:24px 12px 0 20px;
 }
-.university-list li {
+.universitylist li {
   float: left;
-  width: 300px;
-  height: 35px;
+  width: 25%;
+  height: 42px;
+    padding-top: 8px;
 }
 
 /*翻页*/
 .paging {
   height: 24px;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 45px;
+  margin-bottom: 120px;
 }
 .paging li{
     padding: 3px 10px 2px;

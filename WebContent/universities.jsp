@@ -23,15 +23,124 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="style.css">
-    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Buttons 库的核心文件 -->
+    <link rel="stylesheet" href="css/buttons.css">
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
 
     <!-- 引入 echarts.js -->
     <script type="text/javascript" src="js/echarts.min.js"></script>
 
 
     <script>
+
+        const numPerPage = 20;
+
+        // 根据用户点击的a标签值（大学名）查询往年数据  参数that：当前DOM元素
+        function queryScore( that ) {
+
+            var schoolName = $($($(that).parent()).children('a').get(1)).text();
+            console.log(schoolName);
+            window.open("./yucha.jsp?schoolName=" + schoolName);
+        }
+
+        // 验证翻页按钮
+        function verifyPageBt ( nowPage, pageNum ) {
+            // 当前页面小于总页数，可以翻下页
+            if( nowPage === pageNum){
+                $('#next_page').attr('disabled','disabled');
+            } else {
+                $('#next_page').removeAttr('disabled');
+            }
+            if( nowPage === 1 ) {
+                $('#pre_page').attr('disabled','disabled');
+            } else {
+                $('#pre_page').removeAttr('disabled');
+            }
+        }
+
+        // 更新页面数据函数(页面元素索引，更新数据的数组索引，...)
+        function updateData(j, index, names, imgs, locs, feats, cates, nets, edus, lishu) {
+            for( j = 0 ; j < 20 && index < names.length; j++, index++) {
+                // 获取页面上旧数据节点dl
+                var oldDlNode = $('#universities_list > dl').get(j);
+                console.log(oldDlNode);
+                // 更改图片
+                $(oldDlNode).children('dt').children('a').children('img').attr('src',imgs[index]);
+                // 更改名称
+                var oldName = $(oldDlNode).children('dt').children('a').get(1);
+                $(oldName).text(names[index]);
+
+                var oldLi = $(oldDlNode).children('dd').children('ul').children('li');
+                // 更改高校所在地
+                var oldLoc = $(oldLi).get(0);
+                $(oldLoc).text(locs[index]);
+                // 更改高校特色
+                var oldTese = $(oldLi).get(1);
+                $($(oldTese).children('span')).text(feats[index]);
+                // 更改高校类型
+                var oldCate = $(oldLi).get(2);
+                $(oldCate).text(cates[index]);
+                // 更改高校隶属
+                var oldLishu = $(oldLi).get(3);
+                $(oldLishu).text(lishu[index]);
+                // 更改高校性质
+                var oldEdu = $(oldLi).get(4);
+                $(oldEdu).text(edus[index]);
+                // 更改高校网址
+                var oldNet = $(oldLi).get(5);
+                $(oldNet).text(nets[index]);
+                $($(oldDlNode).children('dd').children('div').children('p').children('a')).attr('href', 'http://'+nets[index].slice(5));
+                // 将dl节点显示
+                $(oldDlNode).show();
+            }
+
+            return index;
+        }
+
+        // 页面更新条目不足20，隐藏余下dl元素
+        function hideRemainder( j ) {
+            if( j < numPerPage && j > 0) {
+                for( let k = j; k < numPerPage; k++ ) {
+                    // 获取页面上旧数据节点dl
+                    var remainderDlNode = $('#universities_list > dl').get(k);
+                    // console.log(remainderDlNode);
+                    $(remainderDlNode).hide();
+                }
+            }
+        }
+
+        // 更新页码
+        function updatePageNum( nowPage ) {
+            $('#paging_num').text('当前页码：'+nowPage);
+        }
+
+
+        // 页面载入即加载的js函数
         $(function () {
+
+            var nowPage  = 1;   // 当前页码
+            updatePageNum(nowPage);
+
+            // 点击选择条件后运行
             $('#university_list a').click(function () {
+
+                nowPage = 1;    // 重置页码
+                updatePageNum(nowPage);
+
+                $(this).siblings('a').removeClass('on');    // 删除其他兄弟元素的选中效果
+                $(this).addClass('on');
+
                 var names = []; // 高校名数组
                 var imgs = [];  // 高校图片数组
                 var locs = [];  // 高校所在地数组
@@ -41,7 +150,9 @@
                 var edus = [];  // 高校性质数组
                 var lishu = []; // 高校隶属数组
 
+                // 异步请求，获取数据，更新页面
                 $.ajax({
+                    async: false,
                     type: "get",
                     url: "select_sh",
                     data: {
@@ -52,19 +163,66 @@
                     },
                     dataType: "json",
                     success: function (result) {
-                        if (result) { // 取回数据
+                        if (result) {
+                            // 取回数据
                             for (var i = 0; i < result.length; i++) {
-                                names.push(result[i].schoolName)
-                                imgs.push(result[i].schoolImg);
-                                locs.push(result[i].schoolLocation);
-                                feats.push(result[i].schoolTese);
-                                cates.push(result[i].schoolLeixing);
-                                nets.push(result[i].schoolNet);
-                                edus.push(result[i].schoolXingzhi);
-                                lishu.push(result[i].schoolLishu);
+                                names.push(result[i].school_name)
+                                imgs.push(result[i].school_img);
+                                locs.push(result[i].school_location);
+                                feats.push(result[i].school_tese);
+                                cates.push(result[i].school_leixing);
+                                nets.push(result[i].school_net);
+                                edus.push(result[i].school_xingzhi);
+                                lishu.push(result[i].school_lishu);
                             }
-                            $(this).siblings('a').removeClass('on');    // 删除其他兄弟元素的选中效果
-                            $(this).addClass('on');
+                            // console.log(names);
+
+                            var pageNum = Math.ceil(names.length / 20);  // 总页数
+                            console.log('pageNum'+pageNum);
+
+                            // 初始查询，验证翻页按钮
+                            verifyPageBt(nowPage,pageNum);
+
+                            // 一页放置20条数据 index = 当前页面first数据在返回数组的索引; j: 页面dl节点索引
+                            var index = numPerPage * (nowPage - 1);
+                            var j = 0;
+
+                            // 更新页面数据， j:更新结束后的下一个dl的页面索引
+                            index = updateData(j,index,names,imgs,locs,feats,cates,nets,edus,lishu);
+                            j = index % numPerPage;
+                            // 若当前页面获得的数据少于20，将余下dl节点隐藏
+                            hideRemainder(j);
+                            console.log('j:'+j+' index:' + index);
+
+                            // 下一页按钮的click函数，使用index之后的数据进行更新
+                            $('#next_page').click(function () {
+                                j = 0;  // 重置页面dl节点索引
+                                // j: 当前页面更新后的后一个dl索引
+                                index = updateData(j,index,names,imgs,locs,feats,cates,nets,edus,lishu);
+                                j  = index % numPerPage;
+                                hideRemainder(j);
+                                nowPage++;      // 当前页码加一
+                                updatePageNum(nowPage);
+                                verifyPageBt(nowPage,pageNum)
+                                console.log('j:'+j+' index:' + index  + " nowPage: " + nowPage);
+                            });
+
+
+                            $('#pre_page').click( function () {
+                                if( j === 0 ){
+                                    j = 20;
+                                }
+                                index = index - j - numPerPage;  //上一页的起始数据在数组的索引
+                                j = 0;  // 重置页面dl节点索引
+                                console.log('j:'+j+' index:' + index);
+                                index = updateData(j, index, names, imgs, locs, feats, cates, nets, edus, lishu );
+                                // 一定有20条数据更新，无需hideRemainder()
+                                nowPage--;
+                                updatePageNum(nowPage);
+                                verifyPageBt(nowPage,pageNum);
+                                console.log('after prePage, the nowpage is: ' + nowPage);
+                            });
+
                         }
                     },
                     error: function (errorMsg) {
@@ -72,8 +230,11 @@
                         alert("请求数据失败")
                     }
                 });
+
             });
         });
+
+
     </script>
 <%--根据条件查询大学--%>
 
@@ -221,7 +382,7 @@
         <div id = "university_list" class="menufix container wow fadeInUp" data-wow-delay="400ms">
             <p id="university-loc">
                 <strong  style="font-size: medium">高校所在地：</strong>
-                <a class="on" href="">全部</a>
+                <a href="#" class="on">全部</a>
                 <a href="#">北京</a>
                 <a href="#">天津</a>
                 <a href="#">辽宁</a>
@@ -256,7 +417,7 @@
             </p>
             <p id="university-cate">
                 <strong  style="font-size: medium">高校类型：</strong>
-                <a class="on" href="">全部</a>
+                <a class="on" href="#">全部</a>
                 <a href="#">综合</a>
                 <a href="#">工科</a>
                 <a href="#">农业</a>
@@ -273,13 +434,13 @@
             </p>
             <p id="university-feat">
                 <strong style="font-size: medium">高校特色：</strong>
-                <a class="on" href="">全部</a>
+                <a class="on" href="#">全部</a>
                 <a href="#">211高校</a>
                 <a href="#">985高校</a>
             </p>
             <p id="university-edu">
                 <strong style="font-size: medium">学历层次：</strong>
-                <a class="on" href="">全部</a>
+                <a class="on" href="#">全部</a>
                 <a href="#">本科</a>
                 <a href="#">高职专科</a>
                 <a href="#">独立学院</a>
@@ -288,24 +449,25 @@
         </div>
 
         <%--university list--%>
-        <div class="university-list container wow fadeInUp" data-wow-delay="500ms">
+        <div id = "universities_list" class="universitylist container wow fadeInUp" data-wow-delay="500ms">
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
                         <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">北京大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.pku.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
                         <li>高校类型：综合</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
@@ -315,288 +477,499 @@
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/2.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">中国人民大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.ruc.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
                         <li>高校类型：综合</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.ruc.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/3.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">清华大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.tsinghua.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.tsinghua.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/4.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">北京航空航天大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.buaa.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
-                        <li>高校隶属：教育部</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
+                        <li>高校隶属：工业与信息化部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.buaa.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/5.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">北京理工大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.bit.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
-                        <li>高校隶属：教育部</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
+                        <li>高校隶属：工业与信息化部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.bit.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/6.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">中国农业大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://http://www.cau.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：农业</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：http://www.cau.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/7.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">北京师范大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.bnu.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：师范</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.bnu.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/8.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">中央民族大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.muc.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
                         <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
-                        <li>高校隶属：教育部</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：民族</li>
+                        <li>高校隶属：国家民族事务委员会</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.muc.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/9.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">南开大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.nankai.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
-                        <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
+                        <li>高校所在地：天津</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
                         <li>高校类型：综合</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.nankai.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/10.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">天津大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://——" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
-                        <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
+                        <li>高校所在地：天津</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：——</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/11.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">大连理工大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://——" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
-                        <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
+                        <li>高校所在地：辽宁</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：——</li>
                     </ul>
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <a href="http://college.gaokao.com/school/1/" target="_blank">
-                        <img src="http://college.gaokao.com/style/college/images/icon/1.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/12.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
                     </a>
-                    <strong title="北京大学" class="blue">
-                        <a href="http://college.gaokao.com/school/1/" target="_blank">北京大学
-                        </a>
-                    </strong>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">东北大学</a>
                 </dt>
                 <dd>
                     <div class="right">
-                        <p class="topMargin20"><a class="btn_gary" href="http://college.gaokao.com/school/1/" target="_blank">进入主页</a></p>
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.neu.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
                     </div>
                     <ul>
-                        <li>高校所在地：北京</li>
-                        <li>院校特色：<span class="c211 rm5">211</span><span class="c985">985</span></li>
-                        <li>高校类型：综合</li>
+                        <li>高校所在地：辽宁</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
                         <li>高校隶属：教育部</li>
                         <li>高校性质：本科</li>
-                        <li>学校网址：www.pku.edu.cn</li>
+                        <li>学校网址：www.neu.edu.cn</li>
                     </ul>
                 </dd>
             </dl>
-
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/13.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">吉林大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.jlu.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：吉林</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：综合</li>
+                        <li>高校隶属：教育部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：www.jlu.edu.cn</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/14.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">哈尔滨工业大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://http://www.hit.edu.cn/" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：黑龙江</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
+                        <li>高校隶属：工业与信息化部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：http://www.hit.edu.cn/</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/15.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">复旦大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://http://www.fudan.edu.cn/" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：上海</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：综合</li>
+                        <li>高校隶属：教育部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：http://www.fudan.edu.cn/</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/16.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">同济大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.tongji.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：上海</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：工科</li>
+                        <li>高校隶属：教育部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：www.tongji.edu.cn</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/17.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">上海交通大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.sjtu.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：上海</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：综合</li>
+                        <li>高校隶属：教育部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：www.sjtu.edu.cn</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/18.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">华东师范大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.ecnu.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：上海</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：师范</li>
+                        <li>高校隶属：教育部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：www.ecnu.edu.cn</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/19.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">南京大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.nju.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：江苏</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：综合</li>
+                        <li>高校隶属：教育部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：www.nju.edu.cn</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">
+                        <img src="http://college.gaokao.com/style/college/images/icon/20.png" onerror="this.src='http://college.gaokao.com/style/college/images/icon_default.png'" width="63" height="63" alt="北京大学">
+                    </a>
+                    <a href="javascript:void(0);" onclick="queryScore($(this))">东南大学</a>
+                </dt>
+                <dd>
+                    <div class="right">
+                        <p class="topMargin20">
+                            <a class="btn_gary" href="http://www.seu.edu.cn" target="_blank">
+                                进入高校主页
+                            </a>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>高校所在地：江苏</li>
+                        <li>院校特色：<span class="university_tese"> 211 985</span></li>
+                        <li>高校类型：综合</li>
+                        <li>高校隶属：教育部</li>
+                        <li>高校性质：本科</li>
+                        <li>学校网址：www.seu.edu.cn</li>
+                    </ul>
+                </dd>
+            </dl>
         </div>
     </div>
     <!-- ##### University Select Area End ##### -->
 
     <%--Paging Area--%>
-    <% request.setAttribute("upage",1);%>
+
     <div>
         <ul class="paging container">
-            <li>
+            <button id = "first_page" class="button button-action button-pill">
                 首页
-            </li>
-            <li>
+            </button>
+            <button id = "pre_page" class="button button-action button-pill">
                 上一页
-            </li>
-            <li>
+            </button>
+            <button id = "next_page" class="button button-action button-pill">
                 下一页
+            </button>
+            <li style="padding-top:5; padding-bottom:5;" id = "paging_num" class="button button-action button-pill">
             </li>
 
-                当前第 ${upage} 页
         </ul>
     </div>
 
@@ -723,18 +1096,6 @@
         </div>
     </footer>
     <!-- ##### Footer Area Start ##### -->
-
-    <!-- ##### All Javascript Script ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
 
 </body>
 
