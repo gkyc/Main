@@ -21,8 +21,11 @@ public class ShowDataServlet extends HttpServlet {
 
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException {
         request.setCharacterEncoding("utf-8");
-        String userName = request.getParameter("university");
+        String university = request.getParameter("university");
+        String province = request.getParameter("province");
+        String subject = request.getParameter("subject");
 
+        System.out.println(university+" "+province+" "+subject);
         /* 测试 */
         List<Score>  list = new ArrayList<>();
         list.add(new Score(2011,630));

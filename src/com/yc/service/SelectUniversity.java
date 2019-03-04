@@ -37,30 +37,6 @@ public class SelectUniversity extends HttpServlet {
         }else {
             tese = " 211 985";
         }
-      /*  // 将选定条件规范化为数据库相应数据
-        if(location.equals("全部")){
-            location = "*";
-        }else{
-            location = "高校所在地："+location;
-        }
-        if(leixing.equals("全部")){
-            leixing = "*";
-        }else{
-            leixing = "高校类型："+leixing;
-        }
-        if(tese.equals("全部")){
-            tese = "*";
-        }else if( tese.equals("211高校")) {
-            tese = "211";
-        }else {
-            tese = "211 985";
-        }
-        if(xingzhi.equals("全部")){
-            xingzhi = "*";
-        }else{
-            xingzhi = "高校性质："+xingzhi;
-        }*/
-
 
         String sql = "select * from universities where school_location = '" + location +
                 "' and school_leixing = '" + leixing + "' and school_tese = '" + tese +

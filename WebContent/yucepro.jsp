@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: fitz
-  Date: 2019/2/27
-  Time: 9:04
+  Date: 2019/3/4
+  Time: 9:02
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -37,6 +37,7 @@
     <script src="js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
+
     <!-- 引入 echarts.js -->
     <script type="text/javascript" src="js/echarts.min.js"></script>
 
@@ -53,128 +54,58 @@
                 $("#province").append("<option>"+provinces[i]+"</option>");
             }
         });
-
-        // 获取universities.jsp页面传来的参数
-        function GetRequest() {
-            var url = location.search; //获取url中"?"符后的字串
-            var theRequest = {};
-            if ( url.indexOf("?") !== -1 ) {
-                var str = url.substr(1);
-                var strs = str.split("&");
-                for (var i = 0; i < strs.length; i++) {
-                    theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
-                }
-            }
-            return theRequest;
-        }
-
-
-
     </script>
 
-
-
-    <%--点击查询按钮后加载数据，显示echarts组件--%>
     <script>
+        var score_input = $('#score_input');
+        // var scoreDom = score_input.get(0);
 
-        function showdata() {
-            document.getElementById("echart").style.display="";
+        // scoreDom.addClass('borderRed');
 
-            // 基于准备好的Dom, 初始化echart实例
-            var myChart = echarts.init(document.getElementById('echart'));
-            // 显示标题，图例和空的坐标轴
-            myChart.setOption({
-                title: {
-                    text: '往年录取分数线'
-                },
-                tooltip: {},
-                legend: {
-                    data:['理科']
-                },
-                xAxis: {
-                    data: []
-                },
-                yAxis: {
-                    scale: true
-                },
-                series: [{
-                    name: '理科',
-                    type: 'line',
-                    data: []
-                }]
-            });
-            myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
 
-            var years=[];    //年份数组（实际用来盛放X轴坐标值）
-            var scores=[];    //分数数组（实际用来盛放Y坐标值）
-            var param = GetRequest();   // 获取页面url后的参数
-            var university = param['university'];
+        function checkScore() {
+            var score = $('#score_input').val();
+            console.log(score);
+            if( score !== '') {
+                $('#score_input').removeClass('borderRed'); // 移除class，使原来的红色边框变成正常颜色
+                $('#score_null').hide();    // 不显示错误提示信息
+                return true;
+            }else {
+                $('#score_input').addClass('borderRed');   // 添加class，使输入框变红
+                $('#score_null').show();    // 显示错误提示信息
+                return false;
+            }
+        }
+
+        function showProbability(){
             var province = $('#province option:selected').text();
             var subject = $('#subject option:selected').text();
+            var score = $('#score_input').val();
             // 验证是否选择省份和文理科
-            if(province.substring(0,2) === '--' || subject.substring(0,2) === '--') {
-                alert('请选择生源地省份和文理科！')
+            if(province.substring(0,2) === '--' || subject.substring(0,2) === '--' || score === '') {
+                alert('请填写省份等必要信息！');
             }
-            else{
-
-                $.ajax({
-                    type : "post",
-                    async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-                    url : "showdata",    //请求发送到showdataServlet处
-                    data : {
-                        province: province,
-                        subject: subject,
-                        university: university,
-                    },
-                    dataType : "json",        //返回数据形式为json
-                    success : function(result) {
-                        //请求成功时执行该函数内容，result即为服务器返回的json对象
-                        if (result) {
-                            for(var i=0;i<result.length;i++){
-                                years.push(result[i].year);    //挨个取出year别并填入年份数组
-                            }
-                            for(var i=0;i<result.length;i++){
-                                scores.push(result[i].lScore);    //挨个取出lScore并填入score数组
-                            }
-                            myChart.hideLoading();    //隐藏加载动画
-                            myChart.setOption({        //加载数据图表
-                                xAxis: {
-                                    data: years
-                                },
-                                series: [{
-                                    // 根据名字对应到相应的系列
-                                    name: '理科',
-                                    data: scores
-                                }]
-                            });
-                        }
-
-                    },
-                    error : function(errorMsg) {
-                        //请求失败时执行该函数
-                        alert("图表请求数据失败!");
-                        myChart.hideLoading();
-                    }
-                })
-
+            else {
+                $('#probability_area').show();
+                document.getElementById('pay').style.display='';
             }
         }
     </script>
-
     <style>
-        select{
+        select {
             box-shadow: 0px 0px 3px #71dd8a inset;
-            height: 38px;
-            width: 320px;
-            margin-left: 100px;
-            margin-right: 30px;
+            height: 30px;
+            width: 260px;
+            margin-left: 30px;
+            margin-right: 50px;
             border-radius: 5px;
             text-align: center;
             text-align-last: center;
         }
+        .borderRed{border: 1px solid red;}
     </style>
-</head>
 
+</head>
 <body>
     <!-- ##### Preloader ##### -->
     <div id="preloader">
@@ -295,39 +226,44 @@
     </div>
     <!-- ##### Breadcumb Area End ##### -->
 
-    <!-- ##### Data Query Area Start ##### -->
-    <div class="data-query" style="margin-top: 150px">
+    <!-- #### Predict Probability Start Area #### -->
+    <div id="wrapper"  class="mt-100">
         <div class="container">
+
             <div class="section-heading text-center mx-auto wow fadeInUp" data-wow-delay="300ms" >
-                <span>The Best</span>
-                <h3>往年高考数据</h3>
+                <span>YC</span>
+                <h3>录取概率分析</h3>
+            </div>
+            <div id="condition_form" class="mb-100">
+                <form>
+                    <select class="mb-15" id="province">
+                        <option>--请选择您的省份--</option>
+                    </select>
+                    <select class="mb-15" id="subject">
+                        <option>--请选择文理科--</option>
+                        <option>文科</option>
+                        <option>理科</option>
+                    </select>
+                    <label for="score_input" class="ml-30">请输入您的分数：</label>
+                    <input class="ml-30" id="score_input" type="text" onblur="checkScore()" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3" style=" height: 30px;width: 100px; border-radius: 5px;box-shadow: 0px 0px 3px #71dd8a inset; vertical-align:middle;text-align: left;">
+                    <span id="score_null" style="color:red; display: none">不可为空</span>
+                    <button type="button" class="button button-action button-pill" onclick="showProbability()">
+                        <img src="img/query-white.png"/>
+                    </button>
+                </form>
             </div>
 
-            <%--条件查询和数据展示area--%>
-            <div id="f-select-university" class="text-center mx-auto mb-200" >
-                <%--选择待查询省份,和文理科 提交到showDataServlet，返回json数据--%>
-                <select id="province">
-                    <option>---请选择---</option>
-                </select>
-                <select id="subject">
-                    <option>---请选择---</option>
-                    <option>文科</option>
-                    <option>理科</option>
-                </select>
-                <button type="button" class="button button-action button-pill" onclick="showdata() ">
-                    <img src="img/query-white.png"/>
-                </button>
-
-                <div id="echart" style="height: 500px; width: 80%; display: none" class="text-center mx-auto mt-50">
-
-                </div>
+            <div id="probability_area" style="display: none">
 
             </div>
+
         </div>
     </div>
-    <!-- ##### Data Query Area End ##### -->
 
-
+    <div id="pay" class="container mt-100 mb-100" style="display: none">
+        <span style="margin-left: 30px; font-size: 20px;font-weight: 600;">对您有帮助？为了网页功能的继续完善，请支持我们</span>
+        <a href="./donate.html" class="button button-action button-pill"><span style="font-size: 18px">￥$我要小额赞助，鼓励作者实现更多功能</span></a>
+    </div>
 
     <!-- ##### Partner Area Start ##### -->
     <div class="partner-area section-padding-0-100">
@@ -346,21 +282,6 @@
         </div>
     </div>
     <!-- ##### Partner Area End ##### -->
-
-    <!-- ##### CTA Area Start ##### -->
-    <div class="call-to-action-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="cta-content d-flex align-items-center justify-content-between flex-wrap">
-                        <h3>Do you want to enrole at our Academy? Get in touch!</h3>
-                        <a href="#" class="btn academy-btn">See More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### CTA Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
@@ -438,18 +359,7 @@
                 </div>
             </div>
         </div>
-        <div class="bottom-footer-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <p>
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> Colorlib  All rights reserved | More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </footer>
     <!-- ##### Footer Area Start ##### -->
-
 </body>
+</html>

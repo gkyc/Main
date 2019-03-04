@@ -26,21 +26,10 @@
     <!-- Buttons 库的核心文件 -->
     <link rel="stylesheet" href="css/buttons.css">
 
-    <!-- ##### All Javascript Script ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
-
     <!-- 引入 echarts.js -->
     <script type="text/javascript" src="js/echarts.min.js"></script>
-
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
 
     <script>
 
@@ -51,7 +40,7 @@
 
             var schoolName = $($($(that).parent()).children('a').get(1)).text();
             console.log(schoolName);
-            window.open("./yucha.jsp?schoolName=" + schoolName);
+            window.open("./yucha.jsp?university=" + schoolName);
         }
 
         // 验证翻页按钮
@@ -236,19 +225,7 @@
 
 
     </script>
-<%--根据条件查询大学--%>
 
-    <style>
-        select{
-            height: 40px;
-            width: 240px;
-            margin-left: 30px;
-            margin-right: 30px;
-            border-radius: 5px;
-            text-align: center;
-            text-align-last: center;
-        }
-    </style>
 </head>
 
 <body>
@@ -955,7 +932,6 @@
     <!-- ##### University Select Area End ##### -->
 
     <%--Paging Area--%>
-
     <div>
         <ul class="paging container">
             <button id = "first_page" class="button button-action button-pill">
@@ -972,7 +948,6 @@
 
         </ul>
     </div>
-
 
     <!-- ##### Partner Area Start ##### -->
     <div class="partner-area section-padding-0-100">
@@ -1096,6 +1071,17 @@
         </div>
     </footer>
     <!-- ##### Footer Area Start ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
 
 </body>
 
