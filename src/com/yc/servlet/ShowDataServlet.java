@@ -1,4 +1,4 @@
-package com.yc.service;
+package com.yc.servlet;
 
 import com.google.gson.Gson;
 import com.yc.domain.Score;

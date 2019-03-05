@@ -1,7 +1,6 @@
-package com.yc.service;
+package com.yc.servlet;
 
 import com.google.gson.Gson;
-import com.yc.domain.University;
 import com.yc.utils.JdbcConnector;
 
 import javax.servlet.annotation.WebServlet;
