@@ -78,7 +78,7 @@
             var major = $('#major').val();              // 多选框，取回数组变量
             var score = $('#score_input').val();
 
-            // console.log(province+' '+toProvince[1]+' '+subject+' '+major+' '+score);
+            console.log(JSON.stringify(toProvince));
             // 验证是否选择省份和文理科
             if(province === '' || subject === '' || score === '' || toProvince === '' || major === '') {
                 alert('请填写必要信息！');
@@ -90,6 +90,7 @@
                 $.ajax({
                         type: "get",
                         url: "recommend",
+                        troditional: true,  // 防止深度序列化
                         data: {
                             province: province,
                             subject: subject,

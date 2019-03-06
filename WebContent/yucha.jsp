@@ -26,17 +26,8 @@
     <!-- Buttons 库的核心文件 -->
     <link rel="stylesheet" href="css/buttons.css">
 
-    <!-- ##### All Javascript Script ##### -->
     <!-- jQuery-2.2.4 js -->
     <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
     <!-- 引入 echarts.js -->
     <script type="text/javascript" src="js/echarts.min.js"></script>
 
@@ -50,7 +41,7 @@
         // 加载省份数据
         $(function(){
             for( var i = 0; i < provinces.length; i++ ) {
-                $("#province").append("<option>"+provinces[i]+"</option>");
+                $("#province").append("<option value='" + provinces[i] + "'>"+provinces[i]+"</option>");
             }
         });
 
@@ -109,8 +100,8 @@
             var scores=[];    //分数数组（实际用来盛放Y坐标值）
             var param = GetRequest();   // 获取页面url后的参数
             var university = param['university'];
-            var province = $('#province option:selected').text();
-            var subject = $('#subject option:selected').text();
+            var province = $('#province').val();
+            var subject = $('#subject').val();
             // 验证是否选择省份和文理科
             if(province.substring(0,2) === '--' || subject.substring(0,2) === '--') {
                 alert('请选择生源地省份和文理科！')
@@ -392,82 +383,92 @@
     </div>
     <!-- ##### CTA Area End ##### -->
 
-<!-- ##### Footer Area Start ##### -->
-<footer class="footer-area">
-    <div class="main-footer-area section-padding-100-0">
-        <div class="container">
-            <div class="row">
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <a href="#"><img src="img/YC-logo2.png" alt=""></a>
-                        </div>
-                        <p>有志者，事竟成<br>破釜沉舟，百二秦关终归楚<br>苦心人，天不负<br>卧薪尝胆，三千越甲可吞吴</p>
-                        <div class="footer-social-info">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <h6>相关 链接</h6>
-                        </div>
-                        <nav>
-                            <ul class="useful-links"style="float:left">
-                                <li><a href="index.jsp">主页</a></li>
-                                <li><a href="./universities.jsp" style="float:left" >预查&nbsp;&nbsp;&nbsp;</a><a href="./yucepro.jsp" style="float:left" id="YC-check-ce3">预测&nbsp;&nbsp;&nbsp;</a><a href="./yucefuture.jsp" style="float:left" id="YC-check-ceh3">预策</a></li>
-                                <li><a href="./index.jsp#YC-articles">辅导文章</a></li>
-                                <li><a href="./about-us.jsp">关于我们</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <h6>画廊</h6>
-                        </div>
-                        <div class="gallery-list d-flex justify-content-between flex-wrap">
-                            <a href="img/bg-img/gallery2.jpg" class="gallery-img" title="Gallery Image 2" style="float:left"><img src="img/bg-img/gallery2.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery3.jpg" class="gallery-img" title="Gallery Image 3" style="float:left;margin-right:33%"><img src="img/bg-img/gallery3.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery4.jpg" class="gallery-img" title="Gallery Image 4" style="float:left"><img src="img/bg-img/gallery4.jpg" alt=""></a>
-                            <a href="img/bg-img/gallery6.jpg" class="gallery-img" title="Gallery Image 6" style="float:left;margin-right:33%"><img src="img/bg-img/gallery6.jpg" alt=""></a>
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
+        <div class="main-footer-area section-padding-100-0">
+            <div class="container">
+                <div class="row">
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <a href="#"><img src="img/YC-logo2.png" alt=""></a>
+                            </div>
+                            <p>有志者，事竟成<br>破釜沉舟，百二秦关终归楚<br>苦心人，天不负<br>卧薪尝胆，三千越甲可吞吴</p>
+                            <div class="footer-social-info">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-dribbble"></i></a>
+                                <a href="#"><i class="fa fa-behance"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Footer Widget Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="footer-widget mb-100">
-                        <div class="widget-title">
-                            <h6>联系方式</h6>
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <h6>相关 链接</h6>
+                            </div>
+                            <nav>
+                                <ul class="useful-links"style="float:left">
+                                    <li><a href="index.jsp">主页</a></li>
+                                    <li><a href="./universities.jsp" style="float:left" >预查&nbsp;&nbsp;&nbsp;</a><a href="./yucepro.jsp" style="float:left" id="YC-check-ce3">预测&nbsp;&nbsp;&nbsp;</a><a href="./yucefuture.jsp" style="float:left" id="YC-check-ceh3">预策</a></li>
+                                    <li><a href="./index.jsp#YC-articles">辅导文章</a></li>
+                                    <li><a href="./about-us.jsp">关于我们</a></li>
+                                </ul>
+                            </nav>
                         </div>
-                        <div class="single-contact d-flex mb-30">
-                            <i class="icon-placeholder"></i>
-                            <p>咸宁西路28号西安交通大学</p>
+                    </div>
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <h6>画廊</h6>
+                            </div>
+                            <div class="gallery-list d-flex justify-content-between flex-wrap">
+                                <a href="img/bg-img/gallery2.jpg" class="gallery-img" title="Gallery Image 2" style="float:left"><img src="img/bg-img/gallery2.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery3.jpg" class="gallery-img" title="Gallery Image 3" style="float:left;margin-right:33%"><img src="img/bg-img/gallery3.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery4.jpg" class="gallery-img" title="Gallery Image 4" style="float:left"><img src="img/bg-img/gallery4.jpg" alt=""></a>
+                                <a href="img/bg-img/gallery6.jpg" class="gallery-img" title="Gallery Image 6" style="float:left;margin-right:33%"><img src="img/bg-img/gallery6.jpg" alt=""></a>
+                            </div>
                         </div>
-                        <div class="single-contact d-flex mb-30">
-                            <i class="icon-telephone-1"></i>
-                            <p>Main: 156 8604 2706 <br>Office: 159 9179 9939</p>
-                        </div>
-                        <div class="single-contact d-flex">
-                            <i class="icon-contract"></i>
-                            <p>GK_Counsel@businees.com</p>
+                    </div>
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget mb-100">
+                            <div class="widget-title">
+                                <h6>联系方式</h6>
+                            </div>
+                            <div class="single-contact d-flex mb-30">
+                                <i class="icon-placeholder"></i>
+                                <p>咸宁西路28号西安交通大学</p>
+                            </div>
+                            <div class="single-contact d-flex mb-30">
+                                <i class="icon-telephone-1"></i>
+                                <p>Main: 156 8604 2706 <br>Office: 159 9179 9939</p>
+                            </div>
+                            <div class="single-contact d-flex">
+                                <i class="icon-contract"></i>
+                                <p>GK_Counsel@businees.com</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</footer>
-<!-- ##### Footer Area Start ##### -->
+    </footer>
+    <!-- ##### Footer Area Start ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
 </body>
     <script>
         function YCcheck(){

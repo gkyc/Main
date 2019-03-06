@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 预策划，接受页面参数，调用算法，返回结果数据
  */
-@WebServlet("/recommend")
-public class RecommendServlet extends HttpServlet {
+@WebServlet("/showPro")
+public class ShowProServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response ) {
         doPost(request, response);
@@ -19,23 +19,18 @@ public class RecommendServlet extends HttpServlet {
         String province = request.getParameter("province");
         String subject = request.getParameter("subject");
         int score = Integer.parseInt(request.getParameter("score"));
-        String[] toProvince = request.getParameterValues("toProvince[]");
-        String[] major = request.getParameterValues("major[]");
+        String[] schools = request.getParameterValues("schools[]");
 
-        System.out.println("RecommendServlet");
+        System.out.println("ShowProServlet");
         System.out.println("province: "+province);
         System.out.println("subject: "+subject);
         System.out.println("score: "+score);
-
-        for( int i = 0; i < major.length; i++ ) {
-            System.out.println(major[i]);
-        }
-        for( int i = 0; i < major.length; i++ ) {
-            System.out.println(toProvince[i]);
+        for( int i = 0; i < schools.length; i++ ) {
+            System.out.println(schools[i]);
         }
 
         /**
-         * 调用算法
+         * 调用算法,返回数据到 yucepro.jsp
          */
     }
 }

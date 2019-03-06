@@ -108,8 +108,8 @@
         }
 
         function showProbability(){
-            var province = $('#province option:selected').text();
-            var subject = $('#subject option:selected').text();
+            var province = $('#province').val();
+            var subject = $('#subject').val();
             var score = $('#score_input').val();
 
             // 验证是否选择省份和文理科
@@ -117,8 +117,45 @@
                 alert('请填写省份等必要信息！');
             }
             else {
-                $('#probability_area').show();
-                document.getElementById('pay').style.display='';
+                // 收集待预测高校
+                var schools = [];
+                var school1 = $("#school1").val();
+                var school2 = $("#school2").val();
+                var school3 = $("#school3").val();
+
+                if(school1.substring(0,2) !== "--") {
+                    schools.push(school1)
+                }
+                if(school2.substring(0,2) !== "--") {
+                    schools.push(school2)
+                }
+                if(school3.substring(0,2) !== "--") {
+                    schools.push(school3)
+                }
+
+
+                $.ajax({
+                    type: "get",
+                    url: "showPro",
+                    data: {
+                        province: province,
+                        subject: subject,
+                        score: score,
+                        schools: schools,
+                    },
+                    success: function () {
+                        /**
+                         * 根据返回数据加载div，并展示
+                         */
+                        $('#probability_area').show();
+                        document.getElementById('pay').style.display='';
+                    },
+                    error: function (errorMsg) {
+                        // 请求失败时执行该函数
+                        alert("请求数据失败");
+                    }
+                })
+
             }
         }
 

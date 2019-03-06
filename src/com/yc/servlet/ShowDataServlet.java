@@ -26,6 +26,7 @@ public class ShowDataServlet extends HttpServlet {
         String subject = request.getParameter("subject");
 
         System.out.println(university+" "+province+" "+subject);
+
         /* 测试 */
         List<Score>  list = new ArrayList<>();
         list.add(new Score(2011,630));
