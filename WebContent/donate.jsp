@@ -1,12 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
   User: fitz
-  Date: 2019/3/4
-  Time: 9:02
+  Date: 2019/3/5
+  Time: 11:00
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
@@ -23,126 +24,36 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="style.css">
-    <!-- Buttons 库的核心文件 -->
-    <link rel="stylesheet" href="css/buttons.css">
-
     <!-- jQuery-2.2.4 js -->
     <script src="js/jquery/jquery-2.2.4.min.js"></script>
 
-    <!-- 引入 echarts.js -->
-    <script type="text/javascript" src="js/echarts.min.js"></script>
-
     <script>
-        var provinces=["北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省"
-            ,"吉林省","黑龙江省","上海市","江苏省","浙江省","安徽省","福建省","江西省","山东省"
-            ,"河南省","湖北省","湖南省","广东省","广西壮族自治区","海南省","四川省","贵州省"
-            ,"云南省","重庆市","西藏自治区","陕西省","甘肃省","青海省","宁夏回族自治区"
-            ,"新疆维吾尔自治区"];
-        // 加载省份数据
-        $(function(){
-            for( var i = 0; i < provinces.length; i++ ) {
-                $("#province").append("<option>"+provinces[i]+"</option>");
-                $("#province1").append("<option>"+provinces[i]+"</option>");
-                $("#province2").append("<option>"+provinces[i]+"</option>");
-                $("#province3").append("<option>"+provinces[i]+"</option>");
-            }
+        $(function () {
+            $('#wechat-item a').click(function () {
+                var index = $(this).parent().index();
+                console.log(index);
+                $(this).parent().siblings('li').children('a').removeClass('on');
+                $(this).addClass('on');
 
-        });
+                var img = $('#wechat-img').children('li').get(index);
+                $(img).siblings('li').hide();
+                $(img).show();
+            })
+            $('#ali-item a').click(function () {
+                var index = $(this).parent().index();
+                console.log(index);
+                $(this).parent().siblings('li').children('a').removeClass('on');
+                $(this).addClass('on');
 
-        // 点击待查询高校所在省份的select组件，更新相应高校组件信息
-        function updateSchool(province, school) {   // provice， school： getElementById获得的组件
-            console.log(province+' '+school);
-
-            school.innerHTML='<option>--请选择高校--</option>';    // 更新高校select组件
-            var index = province.selectedIndex;     // 拿到省份select选中项的索引
-            var selectedProvince = province.options[index].text;  // 拿到省份select选中项的值
-            console.log(selectedProvince);
-            var schools = [];   // 相应高校数组
-
-            if( selectedProvince.substring(0,2) === "--" ) {
-                return;
-            }
-            else {
-                $.ajax({
-                    async: true,
-                    type: "get",
-                    url: "selectSh",
-                    data: {
-                        loc: selectedProvince,
-                    },
-                    dataType: "json",
-                    success: function (result) {
-                        if(result) {
-                            // 存储高校数据
-                            for( var i = 0; i < result.length; i++ ) {
-                                schools.push(result[i]);
-                            }
-                            for(var j = 0; j < schools.length; j++){
-                                school.innerHTML += '<option value="'+schools[j]+'">'+schools[j]+'</option>';
-                            }
-                        }
-                    },
-                    error: function (errorMsg) {
-                        // 请求失败时执行该函数
-                        alert("获取高校列表数据失败~")
-                    }
-                })
-            }
-        }
-
+                var img = $('#ali-img').children('li').get(index);
+                $(img).siblings('li').hide();
+                $(img).show();
+            })
+        })
     </script>
-
-    <script>
-        function checkScore() {
-            var score = $('#score_input').val();
-            console.log(score);
-            if( score !== '') {
-                $('#score_input').removeClass('borderRed'); // 移除class，使原来的红色边框变成正常颜色
-                $('#score_null').hide();    // 不显示错误提示信息
-                return true;
-            }else {
-                $('#score_input').addClass('borderRed');   // 添加class，使输入框变红
-                $('#score_null').show();    // 显示错误提示信息
-                return false;
-            }
-        }
-
-        function showProbability(){
-            var province = $('#province option:selected').text();
-            var subject = $('#subject option:selected').text();
-            var score = $('#score_input').val();
-
-            // 验证是否选择省份和文理科
-            if(province.substring(0,2) === '--' || subject.substring(0,2) === '--' || score === '') {
-                alert('请填写省份等必要信息！');
-            }
-            else {
-                $('#probability_area').show();
-                document.getElementById('pay').style.display='';
-            }
-        }
-
-    </script>
-    <style>
-        select {
-            box-shadow: 0px 0px 3px #71dd8a inset;
-            height: 30px;
-            width: 260px;
-            margin-left: 30px;
-            margin-right: 50px;
-            border-radius: 5px;
-            text-align: center;
-            text-align-last: center;
-        }
-        .borderRed{border: 1px solid red;}
-    </style>
 
 </head>
 <body onload="YCcheck()">
-    <!-- ##### Preloader ##### -->
-    <div id="preloader">
-        <i class="circle-preloader"></i>
-    </div>
 
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
@@ -283,88 +194,49 @@
     <!-- ##### Breadcumb Area Start ##### -->
     <div class="breadcumb-area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
         <div class="bradcumbContent">
-            <h2>预查-查古知今</h2>
+            <h2>Donate For YC</h2>
         </div>
     </div>
     <!-- ##### Breadcumb Area End ##### -->
 
-    <!-- #### Predict Probability Start Area #### -->
-    <div id="wrapper"  class="mt-100">
-        <div class="container">
-            <div class="section-heading text-center mx-auto wow fadeInUp" data-wow-delay="300ms" >
-                <span>YC</span>
-                <h3>录取概率分析</h3>
-            </div>
-            <div id="condition_form" class="mb-100">
-                <form>
-                    <select class="mb-15" id="province">
-                        <option>--请选择您的省份--</option>
-                    </select>
-                    <select class="mb-15" id="subject">
-                        <option>--请选择文理科--</option>
-                        <option>文科</option>
-                        <option>理科</option>
-                    </select>
-                    <label for="score_input" class="ml-30">请输入您的分数：</label>
-                    <input class="ml-30" id="score_input" type="text" onblur="checkScore()" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3" style=" height: 30px;width: 100px; border-radius: 5px;box-shadow: 0px 0px 3px #71dd8a inset; vertical-align:middle;text-align: left;">
+    <div id="main" class="container mt-100 mb-100" >
+        <h1 style="color: #666666">赞助</h1>
+        </br>
+        <p class="">如果您认为本网站的功能不错，对您高考填报志愿有帮助，不妨小额赞助我们一下，让我们有动力继续完成更多的功能。</p>
+        <hr>
+        <p><strong>赞助的方式一共有2种</strong>：微信支付，支付宝支付</p>
+        <hr><br><br>
+        <h3>赞助方式一</h3><br>
+        <p>我们向您的慷慨表示诚挚的谢意，欢迎使用微信支付</p>
+        <p>目前共有2元、5元、10元共三档，如果你有手机支付宝，请打开支付宝，使用“扫一扫”付款</p>
+        <ul id="wechat-item" class="donate-ul">
+            <li><a href="javascript:void(0);" class="on">￥2</a></li>
+            <li><a href="javascript:void(0);">￥5</a></li>
+            <li><a href="javascript:void(0);">￥10</a></li>
+        </ul>
 
-                    <br><br>
-                    <strong style="margin-left: 30px;font-size: 22px;color: #171c1a73;">请选择您想预测的高校</strong>
-                    <br>
-                    <select id="province1" class="mb-15 mt-15" onchange="updateSchool(document.getElementById('province1'),document.getElementById('school1'))">
-                        <option>--请选择高校所在省份--</option>
-                    </select>
-                    <select id="school1" class="mb-15 mt-15">
-                        <option>--请选择高校--</option>
-                    </select><br>
-                    <select id="province2" class="mb-15 mt-15" onchange="updateSchool(document.getElementById('province2'),document.getElementById('school2'))">
-                        <option>--请选择高校所在省份--</option>
-                    </select>
-                    <select id="school2" class="mb-15 mt-15" >
-                        <option>--请选择高校--</option>
-                    </select><br>
-                    <select id="province3" class="mb-15 mt-15" onchange="updateSchool(document.getElementById('province3'),document.getElementById('school3'))">
-                        <option>--请选择高校所在省份--</option>
-                    </select>
-                    <select id="school3" class="mb-15 mt-15">
-                        <option>--请选择高校--</option>
-                    </select>
+        <ul id="wechat-img" class="donate-img">
+            <li style="display: block"><img src="./img/donate-img/wechat-2.png"></li>
+            <li><img src="./img/donate-img/wechat-5.png"></li>
+            <li><img src="./img/donate-img/wechat-10.png"></li>
+        </ul>
+        <hr><br><br>
+        <h3>赞助方式二</h3><br>
+        <p>我们向您的慷慨同样致以诚挚的谢意，欢迎使用AliPay</p>
+        <p>同样共有2元、5元、10元共三档，如果你有手机支付宝，请打开支付宝，使用“扫一扫”付款</p>
+        <ul id="ali-item" class="donate-ul">
+            <li><a class="on" href="javascript:void(0);">￥2</a></li>
+            <li><a href="javascript:void(0);">￥5</a></li>
+            <li><a href="javascript:void(0);">￥10</a></li>
+        </ul>
 
-                    <button type="button" class="button button-action button-pill" onclick="showProbability()">
-                        <img src="img/query-white.png"/>
-                    </button>
-                </form>
-            </div>
+        <ul id="ali-img" class="donate-img">
+            <li style="display: block"><img src="./img/donate-img/ali-2.jpg"></li>
+            <li><img src="./img/donate-img/ali-5.jpg"></li>
+            <li><img src="./img/donate-img/ali-10.jpg"></li>
+        </ul>
 
-            <div id="probability_area" style="display: none">
-
-            </div>
-
-        </div>
     </div>
-
-    <div id="pay" class="container mt-100 mb-100" style="display: none">
-        <span style="margin-left: 30px; font-size: 20px;font-weight: 600;">对您有帮助？为了网页功能的继续完善，请支持我们</span>
-        <a href="./donate.jsp" class="button button-action button-pill"><span style="font-size: 18px">￥$我要小额赞助，鼓励作者实现更多功能</span></a>
-    </div>
-
-    <!-- ##### Partner Area Start ##### -->
-    <div class="partner-area section-padding-0-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="partners-logo d-flex align-items-center justify-content-between flex-wrap">
-                        <a href="#"><img src="img/Sponsor1.png" alt=""></a>
-                        <a href="#"><img src="img/Sponsor2.png" alt=""></a>
-                        <a href="#"><img src="img/Sponsor3.png" alt=""></a>
-                        <a href="#"><img src="img/Sponsor4.png" alt=""></a>
-                        <a href="#"><img src="img/Sponsor5.png" alt=""></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Partner Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
@@ -397,8 +269,8 @@
                                 <ul class="useful-links"style="float:left">
                                     <li><a href="index.jsp">主页</a></li>
                                     <li><a href="./universities.jsp" style="float:left" >预查&nbsp;&nbsp;&nbsp;</a><a href="./yucepro.jsp" style="float:left" id="YC-check-ce3">预测&nbsp;&nbsp;&nbsp;</a><a href="./yucefuture.jsp" style="float:left" id="YC-check-ceh3">预策</a></li>
-                                    <li><a href="index.jsp#YC-articles">辅导文章</a></li>
-                                    <li><a href="about-us.jsp">关于我们</a></li>
+                                    <li><a href="./index.jsp#YC-articles">辅导文章</a></li>
+                                    <li><a href="./about-us.jsp">关于我们</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -442,7 +314,6 @@
         </div>
     </footer>
     <!-- ##### Footer Area Start ##### -->
-
     <!-- ##### All Javascript Script ##### -->
     <!-- Popper js -->
     <script src="js/bootstrap/popper.min.js"></script>
@@ -452,27 +323,6 @@
     <script src="js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
+
 </body>
-    <script>
-        function YCcheck(){
-            var ce1 = document.getElementById("YC-check-ce1");
-            var ce2 = document.getElementById("YC-check-ce2");
-            var ce3 = document.getElementById("YC-check-ce3");
-            var ceh1 = document.getElementById("YC-check-ceh1");
-            var ceh2 = document.getElementById("YC-check-ceh2");
-            var ceh3 = document.getElementById("YC-check-ceh3");
-            var infor = document.getElementById("YC-check-infor");
-            var u = <%=username2 %>;
-            if(u!=null){
-                ce1.href="./yucepro.jsp";ce2.href="./yucepro.jsp";ce3.href="./yucepro.jsp";
-                ceh1.href="./yucefuture.jsp";ceh2.href="./yucefuture.jsp";ceh3.href="./yucefuture.jsp";
-                infor.href="infor.jsp";
-            }
-            else{
-                ce1.href="login.jsp";ce2.href="login.jsp";ce3.href="login.jsp";
-                ceh1.href="login.jsp";ceh2.href="login.jsp";ceh3.href="login.jsp";
-                infor.href="login.jsp";
-            }
-        }
-    </script>
 </html>

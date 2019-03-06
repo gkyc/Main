@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: fitz
-  Date: 2019/3/4
-  Time: 9:02
+  Date: 2019/3/5
+  Time: 11:37
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -23,14 +23,16 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
     <!-- Buttons 库的核心文件 -->
     <link rel="stylesheet" href="css/buttons.css">
 
     <!-- jQuery-2.2.4 js -->
     <script src="js/jquery/jquery-2.2.4.min.js"></script>
-
-    <!-- 引入 echarts.js -->
-    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script src="js/prefixfree.min.js"></script>
+    <script src="js/modernizr.js"></script>
 
     <script>
         var provinces=["北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省"
@@ -38,64 +40,20 @@
             ,"河南省","湖北省","湖南省","广东省","广西壮族自治区","海南省","四川省","贵州省"
             ,"云南省","重庆市","西藏自治区","陕西省","甘肃省","青海省","宁夏回族自治区"
             ,"新疆维吾尔自治区"];
+
         // 加载省份数据
         $(function(){
             for( var i = 0; i < provinces.length; i++ ) {
                 $("#province").append("<option>"+provinces[i]+"</option>");
-                $("#province1").append("<option>"+provinces[i]+"</option>");
-                $("#province2").append("<option>"+provinces[i]+"</option>");
-                $("#province3").append("<option>"+provinces[i]+"</option>");
+                $("#toProvince").append("<option>"+provinces[i]+"</option>");
             }
-
         });
-
-        // 点击待查询高校所在省份的select组件，更新相应高校组件信息
-        function updateSchool(province, school) {   // provice， school： getElementById获得的组件
-            console.log(province+' '+school);
-
-            school.innerHTML='<option>--请选择高校--</option>';    // 更新高校select组件
-            var index = province.selectedIndex;     // 拿到省份select选中项的索引
-            var selectedProvince = province.options[index].text;  // 拿到省份select选中项的值
-            console.log(selectedProvince);
-            var schools = [];   // 相应高校数组
-
-            if( selectedProvince.substring(0,2) === "--" ) {
-                return;
-            }
-            else {
-                $.ajax({
-                    async: true,
-                    type: "get",
-                    url: "selectSh",
-                    data: {
-                        loc: selectedProvince,
-                    },
-                    dataType: "json",
-                    success: function (result) {
-                        if(result) {
-                            // 存储高校数据
-                            for( var i = 0; i < result.length; i++ ) {
-                                schools.push(result[i]);
-                            }
-                            for(var j = 0; j < schools.length; j++){
-                                school.innerHTML += '<option value="'+schools[j]+'">'+schools[j]+'</option>';
-                            }
-                        }
-                    },
-                    error: function (errorMsg) {
-                        // 请求失败时执行该函数
-                        alert("获取高校列表数据失败~")
-                    }
-                })
-            }
-        }
-
     </script>
 
     <script>
         function checkScore() {
             var score = $('#score_input').val();
-            console.log(score);
+            // console.log(score);
             if( score !== '') {
                 $('#score_input').removeClass('borderRed'); // 移除class，使原来的红色边框变成正常颜色
                 $('#score_null').hide();    // 不显示错误提示信息
@@ -107,21 +65,29 @@
             }
         }
 
-        function showProbability(){
+/*        function showPlan(){
             var province = $('#province option:selected').text();
+            var toProvince = $('#toProvince option:selected').text();
             var subject = $('#subject option:selected').text();
+            var major = $('#major option:selected').text();
             var score = $('#score_input').val();
-
             // 验证是否选择省份和文理科
-            if(province.substring(0,2) === '--' || subject.substring(0,2) === '--' || score === '') {
-                alert('请填写省份等必要信息！');
+            if(province.substring(0,2) === '--' || subject.substring(0,2) === '--'
+                || score === '' || toProvince.substring(0,2) === '' || major(0,2) === '') {
+                alert('请完善必要信息！');
             }
             else {
                 $('#probability_area').show();
                 document.getElementById('pay').style.display='';
             }
-        }
+        }*/
 
+    function showPlan() {
+        // var h = $(window).scrollTop();      //获取当前滚动条距离顶部的位置
+        // $("html,body").animate({ scrollTop: h + 360 }, 500);      //点击按钮向下移动800px，时间为800毫秒
+        $('#loading').show();
+        setTimeout(function () {$('#loading').hide();}, 3000);
+    }
     </script>
     <style>
         select {
@@ -135,9 +101,29 @@
             text-align-last: center;
         }
         .borderRed{border: 1px solid red;}
+
+        .loader--circularSquare {
+            width: 0;
+            height: 0;
+            box-shadow: -0.625em -0.625em 0 0.625em #9b59b6, 0.625em -0.625em 0 0.625em #9b59b6, -0.625em 0.625em 0 0.625em #9b59b6, 0.625em 0.625em 0 0.625em #9b59b6;
+            animation: circSquare 1.5s ease-in-out infinite;
+        }
+        @keyframes circSquare {
+            50% {
+                width: 1.25em;
+                height: 1.25em;
+                border-radius: 50%;
+                transform: rotate(0.5turn);
+                box-shadow: -2.5em 0 0 #2ecc71, 2.5em 0 0 #e74c3c, -2.5em 0 0 #3498db, 2.5em 0 0 #f1c40f;
+            }
+            80%, 100% {
+                transform: rotate(1turn);
+            }
+        }
     </style>
 
 </head>
+
 <body onload="YCcheck()">
     <!-- ##### Preloader ##### -->
     <div id="preloader">
@@ -283,7 +269,7 @@
     <!-- ##### Breadcumb Area Start ##### -->
     <div class="breadcumb-area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
         <div class="bradcumbContent">
-            <h2>预查-查古知今</h2>
+            <h2>预策-策划未来</h2>
         </div>
     </div>
     <!-- ##### Breadcumb Area End ##### -->
@@ -291,65 +277,56 @@
     <!-- #### Predict Probability Start Area #### -->
     <div id="wrapper"  class="mt-100">
         <div class="container">
-            <div class="section-heading text-center mx-auto wow fadeInUp" data-wow-delay="300ms" >
-                <span>YC</span>
-                <h3>录取概率分析</h3>
-            </div>
-            <div id="condition_form" class="mb-100">
+
+<%--            <div class="section-heading text-center mx-auto wow fadeInUp" data-wow-delay="300ms" style="margin-top: -25px" >
+                <h3>大数据-出谋划策</h3>
+            </div>--%>
+
+
+    <div id="condition_form" class="mb-100" style="margin-top: 125px">
                 <form>
-                    <select class="mb-15" id="province">
-                        <option>--请选择您的省份--</option>
+                    <select class="mb-15 selectpicker mr-50" id="province" title="请选择您所在的省份">
                     </select>
-                    <select class="mb-15" id="subject">
-                        <option>--请选择文理科--</option>
+
+                    <select class="mb-15 selectpicker mr-50" id="subject" title="请选择文理科">
                         <option>文科</option>
                         <option>理科</option>
                     </select>
-                    <label for="score_input" class="ml-30">请输入您的分数：</label>
+
+                    <select id="toProvince" multiple class="mb-15 selectpicker mr-50" title="请选择您向往的省份" data-max-options="3">
+                    </select>
+
+                    <select class="mb-15 selectpicker mr-50" id="major" title="请选择您感兴趣的专业类别">
+                    </select>
+
+                    <label for="score_input">请输入您的分数：</label>
                     <input class="ml-30" id="score_input" type="text" onblur="checkScore()" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3" style=" height: 30px;width: 100px; border-radius: 5px;box-shadow: 0px 0px 3px #71dd8a inset; vertical-align:middle;text-align: left;">
+                    <span id="score_null" style="color:red; display: none">不可为空</span>
 
-                    <br><br>
-                    <strong style="margin-left: 30px;font-size: 22px;color: #171c1a73;">请选择您想预测的高校</strong>
-                    <br>
-                    <select id="province1" class="mb-15 mt-15" onchange="updateSchool(document.getElementById('province1'),document.getElementById('school1'))">
-                        <option>--请选择高校所在省份--</option>
-                    </select>
-                    <select id="school1" class="mb-15 mt-15">
-                        <option>--请选择高校--</option>
-                    </select><br>
-                    <select id="province2" class="mb-15 mt-15" onchange="updateSchool(document.getElementById('province2'),document.getElementById('school2'))">
-                        <option>--请选择高校所在省份--</option>
-                    </select>
-                    <select id="school2" class="mb-15 mt-15" >
-                        <option>--请选择高校--</option>
-                    </select><br>
-                    <select id="province3" class="mb-15 mt-15" onchange="updateSchool(document.getElementById('province3'),document.getElementById('school3'))">
-                        <option>--请选择高校所在省份--</option>
-                    </select>
-                    <select id="school3" class="mb-15 mt-15">
-                        <option>--请选择高校--</option>
-                    </select>
-
-                    <button type="button" class="button button-action button-pill" onclick="showProbability()">
+                    <button type="button" class="button button-action button-pill" onclick="showPlan()">
                         <img src="img/query-white.png"/>
                     </button>
+
                 </form>
             </div>
 
-            <div id="probability_area" style="display: none">
+            <div id="loading" style="width: 100%; height: 400px; padding-top: 100px; display: none">
+                <div class='loader loader--circularSquare' style="margin: auto;"></div>
+            </div>
+
+            <div id="plan_area" style="display: none">
 
             </div>
 
         </div>
     </div>
-
     <div id="pay" class="container mt-100 mb-100" style="display: none">
         <span style="margin-left: 30px; font-size: 20px;font-weight: 600;">对您有帮助？为了网页功能的继续完善，请支持我们</span>
         <a href="./donate.jsp" class="button button-action button-pill"><span style="font-size: 18px">￥$我要小额赞助，鼓励作者实现更多功能</span></a>
     </div>
 
     <!-- ##### Partner Area Start ##### -->
-    <div class="partner-area section-padding-0-100">
+    <div class="partner-area section-padding-0-100 mt-100">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -368,7 +345,7 @@
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
-        <div class="main-footer-area section-padding-100-0">
+        <div id="main-footer-area" class="main-footer-area section-padding-100-0">
             <div class="container">
                 <div class="row">
                     <!-- Footer Widget Area -->
@@ -448,31 +425,33 @@
     <script src="js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->
     <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/bootstrap/bootstrap-select.min.js"></script>
+    <script src="js/bootstrap/defaults-zh_CN.min.js"></script>
     <!-- All Plugins js -->
     <script src="js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
 </body>
-    <script>
-        function YCcheck(){
-            var ce1 = document.getElementById("YC-check-ce1");
-            var ce2 = document.getElementById("YC-check-ce2");
-            var ce3 = document.getElementById("YC-check-ce3");
-            var ceh1 = document.getElementById("YC-check-ceh1");
-            var ceh2 = document.getElementById("YC-check-ceh2");
-            var ceh3 = document.getElementById("YC-check-ceh3");
-            var infor = document.getElementById("YC-check-infor");
-            var u = <%=username2 %>;
-            if(u!=null){
-                ce1.href="./yucepro.jsp";ce2.href="./yucepro.jsp";ce3.href="./yucepro.jsp";
-                ceh1.href="./yucefuture.jsp";ceh2.href="./yucefuture.jsp";ceh3.href="./yucefuture.jsp";
-                infor.href="infor.jsp";
-            }
-            else{
-                ce1.href="login.jsp";ce2.href="login.jsp";ce3.href="login.jsp";
-                ceh1.href="login.jsp";ceh2.href="login.jsp";ceh3.href="login.jsp";
-                infor.href="login.jsp";
-            }
+<script>
+    function YCcheck(){
+        var ce1 = document.getElementById("YC-check-ce1");
+        var ce2 = document.getElementById("YC-check-ce2");
+        var ce3 = document.getElementById("YC-check-ce3");
+        var ceh1 = document.getElementById("YC-check-ceh1");
+        var ceh2 = document.getElementById("YC-check-ceh2");
+        var ceh3 = document.getElementById("YC-check-ceh3");
+        var infor = document.getElementById("YC-check-infor");
+        var u = <%=username2 %>;
+        if(u!=null){
+            ce1.href="./yucepro.jsp";ce2.href="./yucepro.jsp";ce3.href="./yucepro.jsp";
+            ceh1.href="./yucefuture.jsp";ceh2.href="./yucefuture.jsp";ceh3.href="./yucefuture.jsp";
+            infor.href="infor.jsp";
         }
-    </script>
+        else{
+            ce1.href="login.jsp";ce2.href="login.jsp";ce3.href="login.jsp";
+            ceh1.href="login.jsp";ceh2.href="login.jsp";ceh3.href="login.jsp";
+            infor.href="login.jsp";
+        }
+    }
+</script>
 </html>

@@ -11,11 +11,11 @@ public class JDBCConnect {
     // mysql驱动包名
     private static final String Drive_Name = "com.mysql.jdbc.Driver";
     // 数据库连接地址
-    private static final String URL = "jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8";
+    private static final String URL = "jdbc:mysql://localhost:3306/scores?characterEncoding=UTF-8";
     // 用户名
     private static final String USER_NAME = "root";
     // 密码
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "926400";
 
     /* 三剑客 ==。 */
     private static Connection connection = null;   // 连接对象

@@ -105,9 +105,9 @@
                                     <li><a href="#">导航</a>
                                         <ul class="dropdown">
                                             <li><a href="index.jsp">主页</a></li>
-                                            <li><a href="yucha.jsp">预查</a></li>
-                                            <li><a href="yuce.jsp" id="YC-check-ce1">预测</a></li>
-                                            <li><a href="yucehua.jsp" id="YC-check-ceh1">预策</a></li>
+                                            <li><a href="./universities.jsp">预查</a></li>
+                                            <li><a href="./yucepro.jsp" id="YC-check-ce1">预测</a></li>
+                                            <li><a href="./yucefuture.jsp" id="YC-check-ceh1">预策</a></li>
                                             <li><a href="index.jsp#YC-articles">文章</a></li>
                                             <li><a href="about-us.jsp">关于</a></li>
                                         </ul>
@@ -115,7 +115,7 @@
                                     <li><a href="#">功能</a>
                                         <div class="megamenu">
                                             <ul class="single-mega cn-col-4">
-                                                <li><a href="yucha.jsp" style="font-size:18px">预查</a></li>
+                                                <li><a href="./universities.jsp" style="font-size:18px">预查</a></li>
                                                 <br>
                                                 <li><a class="YC-Main-a" href="#">这里有</a></li>
                                                 <li><a class="YC-Main-a" href="#">我国各高校</a></li>
@@ -123,7 +123,7 @@
                                                 <li><a class="YC-Main-a" href="#">详细录取分数</a></li>
                                             </ul>
                                             <ul class="single-mega cn-col-4">
-                                                <li><a id="YC-check-ce2" href="yuce.jsp" style="font-size:18px">预测</a></li>
+                                                <li><a id="YC-check-ce2" href="./yucepro.jsp" style="font-size:18px">预测</a></li>
                                                 <br>
                                                 <li><a class="YC-Main-a" href="#">这里有</a></li>
                                                 <li><a class="YC-Main-a" href="#">你想去、向往的</a></li>
@@ -131,7 +131,7 @@
                                                 <li><a class="YC-Main-a" href="#">录取你的可能性</a></li>
                                             </ul>
                                             <ul class="single-mega cn-col-4">
-                                                <li><a id="YC-check-ceh2" href="yucehua.jsp" style="font-size:18px">预策</a></li>
+                                                <li><a id="YC-check-ceh2" href="./yucefuture.jsp" style="font-size:18px">预策</a></li>
                                                 <br>
                                                 <li><a class="YC-Main-a" href="#">这里有</a></li>
                                                 <li><a class="YC-Main-a" href="#">你满意、合适的</a></li>
@@ -264,7 +264,7 @@
                             <nav>
                                 <ul class="useful-links"style="float:left">
                                     <li><a href="index.jsp">主页</a></li>
-                                    <li><a href="yucha.jsp" style="float:left" >预查&nbsp;&nbsp;&nbsp;</a><a href="yuce.jsp"style="float:left" id="YC-check-ce3">预测&nbsp;&nbsp;&nbsp;</a><a href="yucehua.jsp"style="float:left"id="YC-check-ceh3">预策</a></li>
+                                    <li><a href="./universities.jsp" style="float:left" >预查&nbsp;&nbsp;&nbsp;</a><a href="./yucepro.jsp"style="float:left" id="YC-check-ce3">预测&nbsp;&nbsp;&nbsp;</a><a href="./yucefuture.jsp"style="float:left"id="YC-check-ceh3">预策</a></li>
                                     <li><a href="index.jsp#YC-articles">辅导文章</a></li>
                                     <li><a href="about-us.jsp">关于我们</a></li>
                                 </ul>
@@ -334,8 +334,8 @@ function YCcheck(){
 		var infor = document.getElementById("YC-check-infor");
 		var u = <%=username2 %>;
 		if(u!=null){
-			ce1.href="yuce.jsp";ce2.href="yuce.jsp";ce3.href="yuce.jsp";
-			ceh1.href="yucehua.jsp";ceh2.href="yucehua.jsp";ceh3.href="yucehua.jsp";
+			ce1.href="./yucepro.jsp";ce2.href="./yucepro.jsp";ce3.href="./yucepro.jsp";
+			ceh1.href="./yucefuture.jsp";ceh2.href="./yucefuture.jsp";ceh3.href="./yucefuture.jsp";
 			infor.href="infor.jsp";
 		}
 		else{

@@ -2,7 +2,6 @@ package com.yc.servlet;
 
 import com.google.gson.Gson;
 import com.yc.utils.JdbcConnector;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet("/select_sh")
+/**
+ * 从‘我的’数据库读高校列表
+ */
+@WebServlet("/selectUniversity")
 public class SelectUniversity extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response ) throws IOException {

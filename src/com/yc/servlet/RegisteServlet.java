@@ -40,8 +40,8 @@ public class RegisteServlet extends HttpServlet {
 			else {
 				session.setAttribute("username", username);
 				session.setAttribute("password", password);
-				String newsql = "INSERT INTO `test`.`users`(`user_id`, `user_key`) VALUES ('"+username+"','"+password+"')";
-				JDBCConnect.execute(newsql);
+				String newsql = "INSERT INTO `scores`.`users`(`user_id`, `user_key`) VALUES ('"+username+"','"+password+"')";
+				JDBCConnect.execUpdate(newsql, null);
 				resp.sendRedirect("infor.jsp");
 			}
 		} catch (SQLException e) {
