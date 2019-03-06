@@ -216,7 +216,7 @@
                     },
                     error: function (errorMsg) {
                         // 请求失败时执行该函数
-                        alert("请求数据失败")
+                        alert("请求数据失败");
                     }
                 });
 

@@ -235,14 +235,14 @@
                             <button id="YC-Main-ce" class="col-12 col-md-4 YC-check-ce" style="cursor:pointer;border:0;background:none">
                                 <div class="single-top-features d-flex align-items-center justify-content-center">
                                     <i class="icon-assistance"></i>
-                                    <a href="./yucepro.jsp"><h5>预测-测估可能</h5></a>
+                                    <a id="YC-check-ce4" href="./yucepro.jsp"><h5>预测-测估可能</h5></a>
                                 </div>
                             </button>
                             <!-- Single Top Features -->
                             <button id="YC-Main-cehua" class="col-12 col-md-4 YC-check-ceh" style="cursor:pointer;border:0;background:none">
                                 <div class="single-top-features d-flex align-items-center justify-content-center">
                                     <i class="icon-telephone-3"></i>
-                                    <a href="./yucefuture.jsp"><h5>预策-策划未来</h5></a>
+                                    <a id="YC-check-ceh4" href="./yucefuture.jsp"><h5>预策-策划未来</h5></a>
                                 </div>
                             </button>
                         </div>
@@ -742,21 +742,27 @@
 	
 	function YCcheck(){
 		var ce1 = document.getElementById("YC-check-ce1");
-		var ce2 = document.getElementById("YC-check-ce2");
-		var ce3 = document.getElementById("YC-check-ce3");
-		var ceh1 = document.getElementById("YC-check-ceh1");
+        var ce2 = document.getElementById("YC-check-ce2");
+        var ce3 = document.getElementById("YC-check-ce3");
+        var ce4 = document.getElementById("YC-check-ce4");
+        var ceh1 = document.getElementById("YC-check-ceh1");
 		var ceh2 = document.getElementById("YC-check-ceh2");
 		var ceh3 = document.getElementById("YC-check-ceh3");
+		var ceh4 = document.getElementById("YC-check-ceh4");
 		var infor = document.getElementById("YC-check-infor");
 		var u = <%=username2 %>;
 		if(u!=null){
 			ce1.href="./yucepro.jsp";ce2.href="./yucepro.jsp";ce3.href="./yucepro.jsp";
 			ceh1.href="./yucefuture.jsp";ceh2.href="./yucefuture.jsp";ceh3.href="./yucefuture.jsp";
+			ce4.href="./yucepro.jsp"
+			ceh4.href="./yucefuture.jsp"
 			infor.href="infor.jsp";
 		}
 		else{
 			ce1.href="login.jsp";ce2.href="login.jsp";ce3.href="login.jsp";
 			ceh1.href="login.jsp";ceh2.href="login.jsp";ceh3.href="login.jsp";
+			ce4.href="login.jsp"
+			ceh4.href="login.jsp"
 			infor.href="login.jsp";
 		}
 	}

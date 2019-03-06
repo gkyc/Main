@@ -41,11 +41,17 @@
             ,"云南省","重庆市","西藏自治区","陕西省","甘肃省","青海省","宁夏回族自治区"
             ,"新疆维吾尔自治区"];
 
-        // 加载省份数据
+        var subjects = ["农学","历史学","哲学","工学","教育学","文学","法学","理学","管理学","经济学","艺术学"];
+
         $(function(){
-            for( var i = 0; i < provinces.length; i++ ) {
-                $("#province").append("<option>"+provinces[i]+"</option>");
-                $("#toProvince").append("<option>"+provinces[i]+"</option>");
+            // 加载省份数据
+            for( let i = 0; i < provinces.length; i++ ) {
+                $("#province").append("<option value='"+provinces[i]+"'>"+provinces[i]+"</option>");
+                $("#toProvince").append("<option value='"+provinces[i]+"'>"+provinces[i]+"</option>");
+            }
+            // 加载专业大类数据
+            for( let i = 0; i < subjects.length; i++ ) {
+                $("#major").append("<option value='"+subjects[i]+"'>"+subjects[i]+"</option>");
             }
         });
     </script>
@@ -65,29 +71,48 @@
             }
         }
 
-/*        function showPlan(){
-            var province = $('#province option:selected').text();
-            var toProvince = $('#toProvince option:selected').text();
-            var subject = $('#subject option:selected').text();
-            var major = $('#major option:selected').text();
+        function showPlan(){
+            var province = $('#province').val();
+            var toProvince = $('#toProvince').val();    // 多选框，取回数组变量
+            var subject = $('#subject').val();
+            var major = $('#major').val();              // 多选框，取回数组变量
             var score = $('#score_input').val();
+
+            // console.log(province+' '+toProvince[1]+' '+subject+' '+major+' '+score);
             // 验证是否选择省份和文理科
-            if(province.substring(0,2) === '--' || subject.substring(0,2) === '--'
-                || score === '' || toProvince.substring(0,2) === '' || major(0,2) === '') {
-                alert('请完善必要信息！');
+            if(province === '' || subject === '' || score === '' || toProvince === '' || major === '') {
+                alert('请填写必要信息！');
             }
             else {
-                $('#probability_area').show();
-                document.getElementById('pay').style.display='';
-            }
-        }*/
+                $('#loading').show();
 
-    function showPlan() {
-        // var h = $(window).scrollTop();      //获取当前滚动条距离顶部的位置
-        // $("html,body").animate({ scrollTop: h + 360 }, 500);      //点击按钮向下移动800px，时间为800毫秒
-        $('#loading').show();
-        setTimeout(function () {$('#loading').hide();}, 3000);
-    }
+                // 将数据传送后后端并取回结果
+                $.ajax({
+                        type: "get",
+                        url: "recommend",
+                        data: {
+                            province: province,
+                            subject: subject,
+                            score: score,
+                            toProvince: toProvince,
+                            major: major
+                        },
+                        dataType: "json",
+                        success: function (result) {
+                            if(result) {
+                                $('#probability_area').show();
+                                document.getElementById('pay').style.display='';
+                            }
+                        },
+                        error: function (errorMsg) {
+
+                            setTimeout(function (){$('#loading').hide();},3000);
+                            setTimeout(function (){alert("请求数据失败，请稍后再试~");},3000);
+
+                        }
+                });
+            }
+        }
     </script>
     <style>
         select {
@@ -278,11 +303,6 @@
     <div id="wrapper"  class="mt-100">
         <div class="container">
 
-<%--            <div class="section-heading text-center mx-auto wow fadeInUp" data-wow-delay="300ms" style="margin-top: -25px" >
-                <h3>大数据-出谋划策</h3>
-            </div>--%>
-
-
     <div id="condition_form" class="mb-100" style="margin-top: 125px">
                 <form>
                     <select class="mb-15 selectpicker mr-50" id="province" title="请选择您所在的省份">
@@ -296,7 +316,7 @@
                     <select id="toProvince" multiple class="mb-15 selectpicker mr-50" title="请选择您向往的省份" data-max-options="3">
                     </select>
 
-                    <select class="mb-15 selectpicker mr-50" id="major" title="请选择您感兴趣的专业类别">
+                    <select id="major" multiple class="mb-15 selectpicker mr-50" title="请选择您感兴趣的专业类别" data-max-options="3">
                     </select>
 
                     <label for="score_input">请输入您的分数：</label>
