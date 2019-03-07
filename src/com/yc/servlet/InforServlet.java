@@ -77,7 +77,7 @@ public class InforServlet extends HttpServlet {
 		session.setAttribute("ideal_sch_pro1", ideal_sch_pro1);
 		session.setAttribute("ideal_sch_pro2", ideal_sch_pro2);
 		session.setAttribute("ideal_sch_pro3", ideal_sch_pro3);
-		String sql = "UPDATE `scourse`.`users` SET `user_name` = '"+name+"', `user_key` = '"+password+"',`subject` = '"+subject+"', `user_pro` = '"+pro+"', `mark` = "+mark+", `mail` = '"+mail+"', `phone` = '"+phone+"', `ideal_sch1` = '"+ideal_sch1+"', `ideal_sch2` = '"+ideal_sch2+"', `ideal_sch3` = '"+ideal_sch3+"', `ideal_pro1` = '"+ideal_pro1+"', `ideal_pro2` = '"+ideal_pro2+"', `ideal_pro3` = '"+ideal_pro3+"', `major1` = '"+major1+"', `major2` = '"+major2+"', `major3` = '"+major3+"' WHERE `user_id` = '"+id+"'";
+		String sql = "UPDATE `scorse`.`users` SET `user_name` = '"+name+"', `user_key` = '"+password+"',`subject` = '"+subject+"', `user_pro` = '"+pro+"', `mark` = "+mark+", `mail` = '"+mail+"', `phone` = '"+phone+"', `ideal_sch1` = '"+ideal_sch1+"', `ideal_sch2` = '"+ideal_sch2+"', `ideal_sch3` = '"+ideal_sch3+"', `ideal_pro1` = '"+ideal_pro1+"', `ideal_pro2` = '"+ideal_pro2+"', `ideal_pro3` = '"+ideal_pro3+"', `major1` = '"+major1+"', `major2` = '"+major2+"', `major3` = '"+major3+"' WHERE `user_id` = '"+id+"'";
 		JDBCConnect.execUpdate(sql, null);
 		resp.sendRedirect("infor.jsp");
 	}
