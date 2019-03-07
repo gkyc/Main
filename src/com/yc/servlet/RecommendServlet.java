@@ -37,5 +37,9 @@ public class RecommendServlet extends HttpServlet {
         /**
          * 调用算法
          */
+        /**
+         * 假设算法返回的数据有
+         * 高校名--高校所在省--高校省内名次--被该高校录取概率--高校学科排名
+         */
     }
 }

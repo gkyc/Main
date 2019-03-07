@@ -101,15 +101,19 @@
                         dataType: "json",
                         success: function (result) {
                             if(result) {
-                                $('#probability_area').show();
+
+                                setTimeout(function (){
+                                    $('#loading').hide();
+                                    $('#plan_area').show();
+                                },3000);
                                 document.getElementById('pay').style.display='';
                             }
                         },
                         error: function (errorMsg) {
-
-                            setTimeout(function (){$('#loading').hide();},3000);
-                            setTimeout(function (){alert("请求数据失败，请稍后再试~");},3000);
-
+                            setTimeout(function (){
+                                $('#loading').hide();
+                                alert("请求数据失败，请稍后再试~");
+                            },3000);
                         }
                 });
             }
@@ -128,24 +132,6 @@
         }
         .borderRed{border: 1px solid red;}
 
-        .loader--circularSquare {
-            width: 0;
-            height: 0;
-            box-shadow: -0.625em -0.625em 0 0.625em #9b59b6, 0.625em -0.625em 0 0.625em #9b59b6, -0.625em 0.625em 0 0.625em #9b59b6, 0.625em 0.625em 0 0.625em #9b59b6;
-            animation: circSquare 1.5s ease-in-out infinite;
-        }
-        @keyframes circSquare {
-            50% {
-                width: 1.25em;
-                height: 1.25em;
-                border-radius: 50%;
-                transform: rotate(0.5turn);
-                box-shadow: -2.5em 0 0 #2ecc71, 2.5em 0 0 #e74c3c, -2.5em 0 0 #3498db, 2.5em 0 0 #f1c40f;
-            }
-            80%, 100% {
-                transform: rotate(1turn);
-            }
-        }
     </style>
 
 </head>

@@ -153,6 +153,7 @@
                     dataType: "json",
                     success: function (result) {
                         if (result) {
+                            console.log(result);
                             // 取回数据
                             for (var i = 0; i < result.length; i++) {
                                 names.push(result[i].school_name);

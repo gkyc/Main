@@ -31,6 +31,8 @@
 
     <!-- 引入 echarts.js -->
     <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script src="js/prefixfree.min.js"></script>
+    <script src="js/modernizr.js"></script>
 
     <script>
         var provinces=["北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省"
@@ -107,6 +109,12 @@
             }
         }
 
+        function toPercent(point) {
+            var str = Number(point * 100);
+            str += "%";
+            return str;
+        }
+
         function showProbability(){
             var province = $('#province').val();
             var subject = $('#subject').val();
@@ -122,7 +130,6 @@
                 var school1 = $("#school1").val();
                 var school2 = $("#school2").val();
                 var school3 = $("#school3").val();
-
                 if(school1.substring(0,2) !== "--") {
                     schools.push(school1)
                 }
@@ -133,7 +140,12 @@
                     schools.push(school3)
                 }
 
-
+                // 初始化从后端返回的结果集
+                var schNames = [];
+                var schLocs = [];
+                var schPros = [];
+                $('#probability_area').hide();
+                $('#loading').show();
                 $.ajax({
                     type: "get",
                     url: "showPro",
@@ -143,12 +155,32 @@
                         score: score,
                         schools: schools,
                     },
-                    success: function () {
+                    dataType: "json",
+                    success: function (result) {
                         /**
                          * 根据返回数据加载div，并展示
                          */
-                        $('#probability_area').show();
-                        document.getElementById('pay').style.display='';
+                        if (result) {
+                            // 取回数据到结果集数组
+                            for( let i = 0; i < result.length; i++ ) {
+                                schNames.push(result[i].schoolName);
+                                schLocs.push(result[i].schoolLoc);
+                                schPros.push(toPercent(result[i].schoolPro));
+                            }
+                            // console.log(result);
+                            // 加载结果表格
+                            $('#pro_table tr').not(':eq(0)').empty();
+                            for (let i = 0; i < schNames.length; i++ ) {
+                                $('#pro_table').append("<tr><td>"+schNames[i]+"</td><td>"+schLocs[i]+"</td><td>"+schPros[i]+"</td></tr>")
+                            }
+
+                            // 隐藏加载动画，显示结果div
+                            setTimeout(function () {
+                                $('#loading').hide();
+                                $('#probability_area').show();
+                                document.getElementById('pay').style.display='';    // 显示支付div
+                            }, 3000);
+                        }
                     },
                     error: function (errorMsg) {
                         // 请求失败时执行该函数
@@ -373,8 +405,21 @@
                 </form>
             </div>
 
-            <div id="probability_area" style="display: none">
+            <div id="loading" style="width: 100%; height: 400px; padding-top: 100px; display: none">
+                <div class='loader loader--circularSquare' style="margin: auto;"></div>
+            </div>
 
+            <div id="probability_area" style="display: none; margin-left: 30px">
+                <div>
+                    <span style="font-size: 16px">注：除了您选择的高校，根据您的分数，我们为您提供了其他部分高校预测结果参考</span>
+                    <table id="pro_table" class="table mt-15 mb-15">
+                        <tr>
+                            <th>高校名</th>
+                            <th>高校所在地</th>
+                            <th>录取概率</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
         </div>
