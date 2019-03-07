@@ -183,7 +183,7 @@
     
     <!-- ##### Information Area Start ##### -->
     <div class="container" style="margin-top:150px;margin-bottom:100px">
-	    	<form action="infor" method="post" onSubmit="return check()" id="YC-infor-form">
+	    	<form action="infor" method="post" onSubmit="return check()" id="inforform">
 				<div style="margin-left:50px;margin-right:50px;">
                     <div class="accordions mb-100" id="accordion" role="tablist" aria-multiselectable="true">
                     <!-- single accordian area -->
@@ -194,12 +194,12 @@
                                     </a></h6>
                             <div id="collapseOne" class="accordion-content collapse show">
                            		<hr style="background-color: #ccc;border: 0;height: 1px;margin-bottom:30px">
-								昵称：<input type="text" name="name" value="${usernc }" class="YC-sxinxi">
-								文 / 理科：<select name="subject" value="" class="YC-sxinxi" style="margin-right:0">
-										<option>---请选择---</option><option>理科</option><option>文科</option>
+								昵称：<input id="infor-name" type="text" name="name" value="${usernc }" class="YC-sxinxi">
+								&nbsp;&nbsp;&nbsp;&nbsp;文 / 理科：<select id="infor-subject" name="subject" value="" class="YC-sxinxi" style="margin-right:0">
+										<option>---请选择---</option><option value="0">理科</option><option value="1">文科</option>
 										</select><br>
-								生源地：<select  name="pro" value="" class="YC-sxinxi"><option>---请选择---</option></select>
-								高考分数：<input type="text" name="mark" value="${mark }" class="YC-sxinxi"style="margin-right:0">
+								生源地：<select  id="infor-pro" name="pro" value="" class="YC-sxinxi"><option>---请选择---</option></select>
+								高考分数：<input id="infor-mark" type="text" name="mark" value="${mark }" class="YC-sxinxi"style="margin-right:0">
                             </div>
                         </div>
                         <!-- single accordian area -->
@@ -255,7 +255,7 @@
                             </div>
                         </div>
                  	</div>
-                 	<div style="text-align: center;"><a href="" class="btn academy-btn m-2" onclick="document:YC-infor-form.submit()">保存</a></div>
+                 	<div style="text-align: center;"><button type="submit" class="btn academy-btn m-2">保存</button></div>
 				</div>
 			</form>
 		</div>
@@ -391,7 +391,7 @@ function check(){
 </script>
 
 <script>
-        var provinces=["北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省"
+         var provinces=["北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省"
             ,"吉林省","黑龙江省","上海市","江苏省","浙江省","安徽省","福建省","江西省","山东省"
             ,"河南省","湖北省","湖南省","广东省","广西壮族自治区","海南省","四川省","贵州省"
             ,"云南省","重庆市","西藏自治区","陕西省","甘肃省","青海省","宁夏回族自治区"
@@ -406,7 +406,7 @@ function check(){
                 $("select[name^='major']").append("<option>"+majors[i]+"</option>");
             }
             var subject = document.getElementById("infor-subject");
-        	var sub = ${subject};
+        	var sub = '${subject}';
         	for(i=0;i<subject.length;i++){
         		if(subject[i].value==sub) 
         			subject[i].selected=true;
@@ -634,6 +634,7 @@ function check(){
                 })
             }
         }
+
 
     </script>
 
