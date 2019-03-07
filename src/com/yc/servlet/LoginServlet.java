@@ -70,6 +70,15 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("major1", major1);
 					session.setAttribute("major2", major2);
 					session.setAttribute("major3", major3);
+					String prosql1 = "select sch_province from school where sch_name ='"+ideal_sch1+"'";
+					String prosql2 = "select sch_province from school where sch_name ='"+ideal_sch2+"'";
+					String prosql3 = "select sch_province from school where sch_name ='"+ideal_sch3+"'";
+					prors1 =JDBCConnect.executeQuery(prosql1);
+					prors2 =JDBCConnect.executeQuery(prosql2);
+					prors3 =JDBCConnect.executeQuery(prosql3);
+					if(prors1.next()){String pro1 =prors1.getString(1);session.setAttribute("ideal_sch_pro1", pro1);}
+					if(prors2.next()){String pro2 =prors2.getString(1);session.setAttribute("ideal_sch_pro2", pro2);}
+					if(prors3.next()){String pro3 =prors3.getString(1);session.setAttribute("ideal_sch_pro3", pro3);}
 					resp.sendRedirect("index.jsp");
 				}
 			}
