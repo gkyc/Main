@@ -213,16 +213,31 @@
                             <div id="collapseTwo" class="accordion-content collapse">
                             	<hr style="background-color: #ccc;border: 0;height: 1px;margin-bottom:30px">
                             	电话：<input type="text" name="phone" value="${phone }" class="YC-sxinxi">
-								邮箱：<input type="text" name="mail" value="${mail }" class="YC-sxinxi" style="margin-right:0"><br>
-								目标院校：<select name="ideal_sch1" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
-										<select name="ideal_sch2" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
-										<select name="ideal_sch3" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select><br>
-								目标省份：<select name="ideal_pro1" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
-										<select name="ideal_pro2" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
-										<select name="ideal_pro3" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select><br>
-								目标专业：<select name="major1" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
-										<select name="major2" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
-										<select name="major3" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
+								&nbsp;&nbsp;邮箱：<input type="text" name="mail" value="${mail }" class="YC-sxinxi" style="margin-right:0"><br>
+								目标省份：<select id="infor-pro1" name="ideal_pro1" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
+										<select id="infor-pro2" name="ideal_pro2" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
+										<select id="infor-pro3" name="ideal_pro3" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select><br>
+								目标专业：<select id="infor-major1" name="major1" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
+										<select id="infor-major2" name="major2" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select>
+										<select id="infor-major3" name="major3" value="" class="YC-sxinxi" style="margin-right:30px"><option>---请选择---</option></select><br>
+                            	目标院校：<select id="province1" name="ideal_sch_pro1"class="YC-sxinxi" style="margin-right:30px" onchange="updateSchool1(document.getElementById('province1'),document.getElementById('school1'))">
+					                        <option>--请选择高校所在省份--</option>
+					                    </select>
+					                    <select id="school1" name="ideal_sch1" class="YC-sxinxi">
+					                        <option>---请选择---</option>
+					                    </select><br>
+										<select id="province2" name="ideal_sch_pro2" class="YC-sxinxi" style="margin-left: 70px;margin-right:30px" onchange="updateSchool2(document.getElementById('province2'),document.getElementById('school2'))">
+					                        <option>--请选择高校所在省份--</option>
+					                    </select>
+					                    <select id="school2" name="ideal_sch2" class="YC-sxinxi" >
+					                        <option>---请选择---</option>
+					                    </select><br>
+					                    <select id="province3" name="ideal_sch_pro3" class="YC-sxinxi" style="margin-left: 70px;margin-right:30px" onchange="updateSchool3(document.getElementById('province3'),document.getElementById('school3'))">
+					                        <option>--请选择高校所在省份--</option>
+					                    </select>
+					                    <select id="school3" name="ideal_sch3" class="YC-sxinxi">
+					                        <option>---请选择---</option>
+					                    </select>
                             </div>
                         </div>
                         <!-- single accordian area -->
@@ -381,13 +396,244 @@ function check(){
             ,"河南省","湖北省","湖南省","广东省","广西壮族自治区","海南省","四川省","贵州省"
             ,"云南省","重庆市","西藏自治区","陕西省","甘肃省","青海省","宁夏回族自治区"
             ,"新疆维吾尔自治区"];
-
-        // 加载省份数据
+		
+        var majors=["农学","历史学","哲学","工学","教育学","文学","法学","理学","管理学","经济学","艺术学"];
         $(function(){
             for( var i = 0; i < provinces.length; i++ ) {
                 $("select[name*='pro']").append("<option>"+provinces[i]+"</option>");
             }
+            for( var i = 0; i < majors.length; i++ ) {
+                $("select[name^='major']").append("<option>"+majors[i]+"</option>");
+            }
+            var subject = document.getElementById("infor-subject");
+        	var sub = ${subject};
+        	for(i=0;i<subject.length;i++){
+        		if(subject[i].value==sub) 
+        			subject[i].selected=true;
+        	}
+        	var pro = document.getElementById("infor-pro");
+        	var p = '${user_pro}';
+        	for(i=0;i<pro.length;i++){
+        		if(pro[i].text==p) 
+        			pro[i].selected=true;
+        	}
+        	var sch_pro1 = document.getElementById("province1");
+        	var sp1 = '${ideal_sch_pro1}';
+        	console.log(sp1);
+        	for(i=0;i<sch_pro1.length;i++){
+        		if(sch_pro1[i].text===sp1){ 
+        			sch_pro1[i].selected=true;
+        			if ("createEvent" in document) {
+        				var evt = document.createEvent("HTMLEvents");
+        				evt.initEvent("change", false, true);
+        				sch_pro1.dispatchEvent(evt);
+        			}
+        				else
+        					sch_pro1.fireEvent("onchange");
+        		}
+        	}
+        	var sch_pro2 = document.getElementById("province2");
+        	var sp2 = '${ideal_sch_pro2}';
+        	for(i=0;i<sch_pro2.length;i++){
+        		if(sch_pro2[i].text===sp2){ 
+        			sch_pro2[i].selected=true;
+        			if ("createEvent" in document) {
+        				 var evt = document.createEvent("HTMLEvents");
+        				 evt.initEvent("change", false, true);
+        				 sch_pro2.dispatchEvent(evt);
+        				}
+        				else
+        					sch_pro2.fireEvent("onchange");
+        		}
+        	}
+        	var sch_pro3 = document.getElementById("province3");
+        	var sp3 = '${ideal_sch_pro3}';
+        	for(i=0;i<sch_pro3.length;i++){
+        		if(sch_pro3[i].text===sp3){ 
+        			sch_pro3[i].selected=true;
+        			if ("createEvent" in document) {
+       				 var evt = document.createEvent("HTMLEvents");
+       				 evt.initEvent("change", false, true);
+       				 sch_pro3.dispatchEvent(evt);
+       				}
+       				else
+       					sch_pro3.fireEvent("onchange");
+        		}
+        	}
+        	var pro1 = document.getElementById("infor-pro1");
+        	var p1 = '${ideal_pro1}';
+        	for(i=0;i<pro1.length;i++){
+        		if(pro1[i].text==p1) 
+        			pro1[i].selected=true;
+        	}
+        	var pro2 = document.getElementById("infor-pro2");
+        	var p2 = '${ideal_pro2}';
+        	for(i=0;i<pro2.length;i++){
+        		if(pro2[i].text==p2) 
+        			pro2[i].selected=true;
+        	}
+        	var pro3 = document.getElementById("infor-pro3");
+        	var p3 = '${ideal_pro3}';
+        	for(i=0;i<pro3.length;i++){
+        		if(pro3[i].text==p3) 
+        			pro3[i].selected=true;
+        	}
+        	var major1 = document.getElementById("infor-major1");
+        	var m1 = '${major1}';
+        	for(i=0;i<major1.length;i++){
+        		if(major1[i].text==m1) 
+        			major1[i].selected=true;
+        	}
+        	var major2 = document.getElementById("infor-major2");
+        	var m2 = '${major2}';
+        	for(i=0;i<major2.length;i++){
+        		if(major2[i].text==m2) 
+        			major2[i].selected=true;
+        	}
+        	var major3 = document.getElementById("infor-major3");
+        	var m3 = '${major3}';
+        	for(i=0;i<major3.length;i++){
+        		if(major3[i].text==m3) 
+        			major3[i].selected=true;
+        	}
+        	
+        	
         });
+		
+        function updateSchool1(province, school) {   // provice， school： getElementById获得的组件
+            console.log(province+' '+school);
+            school.innerHTML='<option>---请选择---</option>';
+            var index = province.selectedIndex;     // 拿到省份select选中项的索引
+            var selectedProvince = province.options[index].text;  // 拿到省份select选中项的值
+            console.log(selectedProvince);
+            var schools = [];   // 相应高校数组
+
+            if( selectedProvince.substring(0,2) === "--" ) {
+                return;
+            }
+            else {
+                $.ajax({
+                    async: true,
+                    type: "get",
+                    url: "selectSh",
+                    data: {
+                        loc: selectedProvince,
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if(result) {
+                            // 存储高校数据
+                            for( var i = 0; i < result.length; i++ ) {
+                                schools.push(result[i]);
+                            }
+		                    for(var j = 0; j < schools.length; j++){
+		                        school.innerHTML += '<option value="'+schools[j]+'">'+schools[j]+'</option>';
+		                    }
+		                    var sch1 = document.getElementById("school1");
+		                	var s1 = '${ideal_sch1}';
+		                	for(i=0;i<sch1.length;i++){
+		                		if(sch1[i].text==s1) 
+		                			sch1[i].selected=true;
+		                	}
+                        }
+                    },
+                    error: function (errorMsg) {
+                        // 请求失败时执行该函数
+                        alert("获取高校列表数据失败~")
+                    }
+                })
+            }
+        }
+        
+        function updateSchool2(province, school) {   // provice， school： getElementById获得的组件
+            console.log(province+' '+school);
+            school.innerHTML='<option>---请选择---</option>';
+            var index = province.selectedIndex;     // 拿到省份select选中项的索引
+            var selectedProvince = province.options[index].text;  // 拿到省份select选中项的值
+            console.log(selectedProvince);
+            var schools = [];   // 相应高校数组
+
+            if( selectedProvince.substring(0,2) === "--" ) {
+                return;
+            }
+            else {
+                $.ajax({
+                    async: true,
+                    type: "get",
+                    url: "selectSh",
+                    data: {
+                        loc: selectedProvince,
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if(result) {
+                            // 存储高校数据
+                            for( var i = 0; i < result.length; i++ ) {
+                                schools.push(result[i]);
+                            }
+		                    for(var j = 0; j < schools.length; j++){
+		                        school.innerHTML += '<option value="'+schools[j]+'">'+schools[j]+'</option>';
+		                    }
+		                    var sch2 = document.getElementById("school2");
+		                	var s2 = '${ideal_sch2}';
+		                	for(i=0;i<sch2.length;i++){
+		                		if(sch2[i].text==s2) 
+		                			sch2[i].selected=true;
+		                	}
+                        }
+                    },
+                    error: function (errorMsg) {
+                        // 请求失败时执行该函数
+                        alert("获取高校列表数据失败~")
+                    }
+                })
+            }
+        }
+        
+        function updateSchool3(province, school) {   // provice， school： getElementById获得的组件
+            console.log(province+' '+school);
+            school.innerHTML='<option>---请选择---</option>';
+            var index = province.selectedIndex;     // 拿到省份select选中项的索引
+            var selectedProvince = province.options[index].text;  // 拿到省份select选中项的值
+            console.log(selectedProvince);
+            var schools = [];   // 相应高校数组
+
+            if( selectedProvince.substring(0,2) === "--" ) {
+                return;
+            }
+            else {
+                $.ajax({
+                    async: true,
+                    type: "get",
+                    url: "selectSh",
+                    data: {
+                        loc: selectedProvince,
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if(result) {
+                            // 存储高校数据
+                            for( var i = 0; i < result.length; i++ ) {
+                                schools.push(result[i]);
+                            }
+		                    for(var j = 0; j < schools.length; j++){
+		                        school.innerHTML += '<option value="'+schools[j]+'">'+schools[j]+'</option>';
+		                    }
+		                    var sch3 = document.getElementById("school3");
+		                	var s3 = '${ideal_sch3}';
+		                	for(i=0;i<sch3.length;i++){
+		                		if(sch3[i].text==s3) 
+		                			sch3[i].selected=true;
+		                	}
+                        }
+                    },
+                    error: function (errorMsg) {
+                        // 请求失败时执行该函数
+                        alert("获取高校列表数据失败~")
+                    }
+                })
+            }
+        }
 
     </script>
 
