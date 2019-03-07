@@ -36,6 +36,9 @@ public class LogoutServlet extends HttpServlet {
 		session.removeAttribute("major1");
 		session.removeAttribute("major2");
 		session.removeAttribute("major3");
+		session.removeAttribute("ideal_sch_pro1");
+		session.removeAttribute("ideal_sch_pro2");
+		session.removeAttribute("ideal_sch_pro3");
         resp.sendRedirect("index.jsp");
 	}
 
