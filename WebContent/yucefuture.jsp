@@ -314,7 +314,7 @@
                                             <li><a href="./universities.jsp">预查</a></li>
                                             <li><a href="./yucepro.jsp" id="YC-check-ce1">预测</a></li>
                                             <li><a href="./yucefuture.jsp" id="YC-check-ceh1">预策</a></li>
-                                            <li><a href="#YC-articles">文章</a></li>
+                                            <li><a href="index.jsp#YC-articles">文章</a></li>
                                             <li><a href="about-us.jsp">关于</a></li>
                                         </ul>
                                     </li>
