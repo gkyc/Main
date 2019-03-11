@@ -250,8 +250,8 @@
                             </h6>
                             <div id="collapseThree" class="accordion-content collapse">
                             	<hr style="background-color: #ccc;border: 0;height: 1px;margin-bottom:30px">
-                            	新密码：<input id="newpassword" type="text" name="password" value="" class="YC-sxinxi">
-								确认密码：<input id="repeatpassword" type="text" name="repassword" value="" class="YC-sxinxi" style="margin-right:0">
+                            	新密码：<input id="newpassword" type="password" name="password" value="" class="YC-sxinxi">
+								确认密码：<input id="repeatpassword" type="password" name="repassword" value="" class="YC-sxinxi" style="margin-right:0">
                             </div>
                         </div>
                  	</div>

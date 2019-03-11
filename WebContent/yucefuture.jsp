@@ -33,6 +33,7 @@
     <script src="js/jquery/jquery-2.2.4.min.js"></script>
     <script src="js/prefixfree.min.js"></script>
     <script src="js/modernizr.js"></script>
+    <script src="js/echarts.min.js"></script>
 
     <script>
         var provinces=["北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省"
@@ -84,13 +85,30 @@
                 alert('请填写必要信息！');
             }
             else {
+                $('#plan_area').hide();
                 $('#loading').show();
 
+
+                $('#plan_proving_text').html("");
+                $('#plan_major_text').html("");
+                if( subject === "理科") {
+                    $('#plan_proving_text').append("<p>您来自"+province+"，是一名思维缜密，热爱探索的理科生，您的高考分数为：" +
+                        "<strong>"+score+"</strong>，不论高与低，祝贺你，通过了高考这一人生意义非凡的阶段！</P><br>");
+                } else {
+                    $('#plan_proving_text').append("<p>您来自"+province+"省，是一名腹有诗书气自华的文科生，您的高考分数为：" +
+                        "<strong>"+score+"</strong>，不论高与低，祝贺你，通过了高考这一人生意义非凡的阶段！</P><br>");
+                }
+                if(toProvince.indexOf(province) === -1) {    // 想去省份包含生源地省份
+                    $('#plan_proving_text').append("<P>你向往外地的省份，正所谓“读万卷书，行万里路”，根据你选择的省份，我们向你推荐以下高校:</P><br>")
+                } else {
+                    $('#plan_proving_text').append("<P>你想留在本省，离不开那一方水土，正所谓“胡马依北风，越鸟朝南枝”，根据你选择的省份，我们向你推荐以下高校:</P><br>")
+                }
+                $('#plan_major_text').append("<p>此外，根据你选择的感兴趣学科，我们向您推荐的高校有：</P>")
                 // 将数据传送后后端并取回结果
                 $.ajax({
                         type: "get",
                         url: "recommend",
-                        troditional: true,  // 防止深度序列化
+                        traditional: true,  // 防止深度序列化
                         data: {
                             province: province,
                             subject: subject,
@@ -101,12 +119,83 @@
                         dataType: "json",
                         success: function (result) {
                             if(result) {
-
+                                var schoolName = [];
+                                var proRank = [];
+                                var beAdmit = [];
+                                var conRank = [];
+                                for( let i = 0; i < result.length; i++ ) {
+                                    schoolName.push(result[i].schName);
+                                    proRank.push(result[i].proRank);
+                                    beAdmit.push(result[i].beAdmit);
+                                    conRank.push(result[i].conRank);
+                                }
+                                var pChart = echarts.init(document.getElementById("plan_province"));
+                                pChart.setOption({
+                                    tooltip : {
+                                        trigger: 'axis',
+                                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                        }
+                                    },
+                                    legend: {
+                                        data: ['省排名分值', '被录取概率分值','全国排名分值']
+                                    },
+                                    grid: {
+                                        left: '3%',
+                                        right: '4%',
+                                        bottom: '3%',
+                                        containLabel: true
+                                    },
+                                    xAxis:  {
+                                        type: 'value'
+                                    },
+                                    yAxis: {
+                                        type: 'category',
+                                        data: schoolName
+                                    },
+                                    series: [
+                                        {
+                                            name: '省排名分值',
+                                            type: 'bar',
+                                            stack: '总量',
+                                            label: {
+                                                normal: {
+                                                    show: true,
+                                                    position: 'insideRight'
+                                                }
+                                            },
+                                            data: proRank
+                                        },
+                                        {
+                                            name: '被录取概率分值',
+                                            type: 'bar',
+                                            stack: '总量',
+                                            label: {
+                                                normal: {
+                                                    show: true,
+                                                    position: 'insideRight'
+                                                }
+                                            },
+                                            data: beAdmit
+                                        },
+                                        {
+                                            name: '全国排名分值',
+                                            type: 'bar',
+                                            stack: '总量',
+                                            label: {
+                                                normal: {
+                                                    show: true,
+                                                    position: 'insideRight'
+                                                }
+                                            },
+                                            data: conRank
+                                        }]
+                                });
                                 setTimeout(function (){
                                     $('#loading').hide();
                                     $('#plan_area').show();
+                                    document.getElementById('pay').style.display='';
                                 },3000);
-                                document.getElementById('pay').style.display='';
                             }
                         },
                         error: function (errorMsg) {
@@ -119,6 +208,7 @@
             }
         }
     </script>
+
     <style>
         select {
             box-shadow: 0px 0px 3px #71dd8a inset;
@@ -131,7 +221,9 @@
             text-align-last: center;
         }
         .borderRed{border: 1px solid red;}
-
+        #plan_area p{
+            font-size: 18px;
+        }
     </style>
 
 </head>
@@ -289,13 +381,12 @@
     <!-- #### Predict Probability Start Area #### -->
     <div id="wrapper"  class="mt-100">
         <div class="container">
-
-    <div id="condition_form" class="mb-100" style="margin-top: 125px">
+            <div id="condition_form" class="mb-100" style="margin-top: 125px">
                 <form>
-                    <select class="mb-15 selectpicker mr-50" id="province" title="请选择您所在的省份">
+                    <select class="mb-15 selectpicker mr-50" id="province" title="请选择您所在的省份" >
                     </select>
 
-                    <select class="mb-15 selectpicker mr-50" id="subject" title="请选择文理科">
+                    <select class="mb-15 selectpicker mr-50" id="subject" title="请选择文理科" value="">
                         <option>文科</option>
                         <option>理科</option>
                     </select>
@@ -307,7 +398,7 @@
                     </select>
 
                     <label for="score_input">请输入您的分数：</label>
-                    <input class="ml-30" id="score_input" type="text" onblur="checkScore()" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3" style=" height: 30px;width: 100px; border-radius: 5px;box-shadow: 0px 0px 3px #71dd8a inset; vertical-align:middle;text-align: left;">
+                    <input class="ml-30" id="score_input" type="text" onblur="checkScore()" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3" style=" height: 30px;width: 100px; border-radius: 5px;box-shadow: 0px 0px 3px #71dd8a inset; vertical-align:middle;text-align: left;" >
                     <span id="score_null" style="color:red; display: none">不可为空</span>
 
                     <button type="button" class="button button-action button-pill" onclick="showPlan()">
@@ -321,15 +412,18 @@
                 <div class='loader loader--circularSquare' style="margin: auto;"></div>
             </div>
 
-            <div id="plan_area" style="display: none">
-
+            <div id="plan_area" style="display: none;width: 100%">
+                <div id="plan_proving_text"></div>
+                <div id="plan_province" style="width: 800px; height: 600px; margin: auto"></div>
+                <div id="plan_major_text"></div>
+                <div id="plan_major"></div>
             </div>
 
+            <div id="pay" class="container mt-100 mb-100" style="display: none">
+                <span style="margin-left: 30px; font-size: 20px;font-weight: 600;">对您有帮助？为了网页功能的继续完善，请支持我们</span>
+                <a href="./donate.jsp" target="_blank" class="button button-action button-pill"><span style="font-size: 18px">￥$我要小额赞助，鼓励作者实现更多功能</span></a>
+            </div>
         </div>
-    </div>
-    <div id="pay" class="container mt-100 mb-100" style="display: none">
-        <span style="margin-left: 30px; font-size: 20px;font-weight: 600;">对您有帮助？为了网页功能的继续完善，请支持我们</span>
-        <a href="./donate.jsp" class="button button-action button-pill"><span style="font-size: 18px">￥$我要小额赞助，鼓励作者实现更多功能</span></a>
     </div>
 
     <!-- ##### Partner Area Start ##### -->
@@ -438,6 +532,7 @@
     <script src="js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
+    <script type="text/javascript" color="34,139,34" opacity='0.8' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 </body>
 <script>
     function YCcheck(){

@@ -2,12 +2,17 @@ package com.yc.servlet;
 
 import com.google.gson.Gson;
 import com.yc.domain.Score;
+import com.yc.utils.JdbcConnector;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,23 +29,35 @@ public class ShowDataServlet extends HttpServlet {
         String university = request.getParameter("university");
         String province = request.getParameter("province");
         String subject = request.getParameter("subject");
+        province = province.substring(0,2);
 
         System.out.println(university+" "+province+" "+subject);
 
         /* 测试 */
         List<Score>  list = new ArrayList<>();
-        list.add(new Score(2011,630));
-        list.add(new Score(2012,638));
-        list.add(new Score(2013,650));
-        list.add(new Score(2014,633));
-        list.add(new Score(2015,648));
-        list.add(new Score(2016,660));
-        list.add(new Score(2017,662));
-        list.add(new Score(2018,678));
+        Connection connection = null;
+        try{
+            connection = JdbcConnector.getConnection();
+            String sql = "select year,mark from mark where school='" + university + "' and " +
+                    "subject='" + subject + "' and province like '" + province + "%'";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Score score = new Score(resultSet.getInt(1),resultSet.getInt(2));
+                list.add(score);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
         Gson gson = new Gson();
         String data = gson.toJson(list);
-
         System.out.println("showdata servlet");
         response.setContentType("text/html; charset=utf-8");
         response.getWriter().write(data);

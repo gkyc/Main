@@ -29,7 +29,10 @@ public class LoginServlet extends HttpServlet {
 		String username = req.getParameter("login-username");
         String password = req.getParameter("login-password");
         ResultSet rs = null; 
-        ResultSet ncrs = null; 
+        ResultSet ncrs = null;
+		ResultSet prors1 = null;
+		ResultSet prors2 = null;
+		ResultSet prors3 = null;
         String sql = "select user_id from users where user_id = '"+username+"' and user_key = '"+password+"'";
         rs = JDBCConnect.executeQuery(sql);
         HttpSession session = req.getSession();
